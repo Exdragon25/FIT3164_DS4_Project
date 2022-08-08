@@ -32,14 +32,16 @@ def search():
                   "course": request.args.getlist("Course")
                   }
         print(output)  # should jump to next search result pages.
-        return render_result(output)
+        # return render_result(output)
     return render_template('homepage.html')
+
 
 def render_result(input_dict):
     """
     :param input_dict: a dictionary with user input data for searching
     :return: a render_template function with a new web pages
     """
+
 
 if __name__ == '__main__':
     app.run(debug=True)

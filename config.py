@@ -1,0 +1,1 @@
+JSON_AS_ASCII = False # 允许输出中文为不是ascii码'特使'

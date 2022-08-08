@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dish Recommendation</title>
+    <link rel="stylesheet" href="homepagestyle.css">
+</head>
+
+<body>
+
+    <!-- 导航栏 -->
+    <div class="nav">
+        <ul>
+            <li><a href="#" onclick="alert('student123@monash.edu.au')">Contact Us</a></li>
+            <li><a href="signin.html">Login/Register</a></li>
+        </ul>
+    </div>
+
+    <!-- 标题和搜索部分 -->
+    <div class="box">
+        <div class="title">Search Recipes</div>
+        <div class="search">
+            <input type="text" placeholder="Dishes name or ingredients here (optional)">
+            <button>Search</button>
+        </div>
+
+        <!-- cuisine filter -->
+        <div class="filters clearfix">
+            <ul class="cuisine">
+                <li class="f1">Cuisine</li>
+                <li>
+                    <select name="cuisine" class="custom-select" multiple>
+                        <option value="html">American</option>
+                        <option value="css">Chinese</option>
+                        <option value="javascript">French</option>
+                        <option value="html">Inian</option>
+                        <option value="css">Japanese</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- taste filter -->
+        <div class="filters clearfix">
+            <ul class="taste">
+                <li class="f2">Taste</li>
+                <li>
+                    <select name="taste" class="custom-select" multiple>
+                        <option value="salty">Salty</option>
+                        <option value="sweet">Sweet</option>
+                        <option value="sour">Sour</option>
+                        <option value="spicy">Spicy</option>
+                        <option value="bitter">Bitter</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+
+        <!-- course filter -->
+        <div class="filters clearfix">
+            <ul class="course">
+                <li class="f3">Course</li>
+                <li>
+                    <select name="course" class="custom-select" multiple>
+                        <option value="main_dish">Main Dish</option>
+                        <option value="side_dish">Side Dish</option>
+                        <option value="salad">Salad</option>
+                        <option value="soup">Soup</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- daily recommendation -->
+    <div class="dailyrecom">
+        <div class="dailytitle">Daily Recommendation for all users</div>
+        <div class="dailyrecipe">
+            <ul>
+                <li>
+                    <img src="#" alt="none">
+                    <p><a href="#">recipe link</a></p>
+                </li>
+                <li>
+                    <img src="#" alt="none">
+                    <p><a href="#">recipe link</a></p>
+                </li>
+                <li>
+                    <img src="#" alt="none">
+                    <p><a href="#">recipe link</a></p>
+                </li>
+                <li class="dailylast">
+                    <img src="#" alt="none">
+                    <p><a href="#">recipe link</a></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- copyright -->
+    <div class="footer">
+        <div></div>
+        Copyright @ 2022 FIT3164 Data Science Group4
+    </div>
+    <script src="homepage.js"></script>
+</body>
+
+</html>

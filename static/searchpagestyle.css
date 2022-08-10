@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.nav {
+    height: 70px;
+    background-color: #fc911fdc;
+}
+
+.nav .title {
+    float: left;
+    line-height: 70px;
+    margin: 0 40px;
+    font-size: 27px;
+    font-family: 'Inter';
+    font-weight: 700;
+}
+
+.nav .searchbox {
+    float: left;
+    height: 35px;
+    width: 800px;
+    margin: 17.5px 0;
+    background-color: #fff;
+
+}
+
+.nav .searchbox input {
+    float: left;
+    height: 35px;
+    width: 745px;
+    border: none;
+    padding-left: 15px;
+    color: #726d66dc;
+    font-size: 17px;
+}
+
+.searchbox button {
+    float: right;
+    width: 40px;
+    height: 35px;
+    border: 0;
+    background: url(img/searchicon.png);
+    background-size: cover;
+}
+
+.nav .user {
+    float: left;
+    margin-left: 180px;
+    line-height: 70px;
+    font-size: 20px;
+    font-family: 'Inter';
+    font-weight: 700;
+}
+
+.nav .logout {
+    float: right;
+    margin-right: 30px;
+    line-height: 70px;
+    font-size: 20px;
+    font-family: 'Inter';
+    font-weight: 700;
+}
+
+.filter {
+    height: 710px;
+    width: 300px;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 40px 40px;
+}
+
+.filter .cuisine {
+    height: 205px;
+    border-bottom: 2px solid black;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+}
+.filter .taste {
+    height: 205px;
+    border-bottom: 2px solid black;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+}
+.filter .course {
+    height: 205px;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
+}
+.filter input {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.footer {
+    padding-right: 30px;
+    height: 50px;
+    background-color: #252423d0;
+    color: #FFFFFF;
+    font-size: 16px;
+    text-align: right;
+    line-height: 50px;
+}
+.footer .copyright {
+    float: right;
+    margin-right: 30px;
+}
+.footer .backhome {
+    float: left;
+    margin-left: 30px;
+}
+.footer .backhome a {
+    color: #FFFFFF;
+}
+.footer .backhome a:hover {
+    color: #ff8500;
+}

@@ -1,77 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dish Recommendation</title>
-    <link rel="stylesheet" href="homepagestyle.css">
+    <link rel="stylesheet" href="homepage style.css">
+    <script src="homepage.js"></script>
 </head>
-
 <body>
-
     <!-- 导航栏 -->
     <div class="nav">
         <ul>
-            <li><a href="#" onclick="alert('student123@monash.edu.au')">Contact Us</a></li>
-            <li><a href="signin.html">Login/Register</a></li>
+            <li>< a href=" " onclick="alert('student123@monash.edu.au')">Contact Us</a></li>
+            <li>< a href="#">Login/Register</a></li>
         </ul>
     </div>
 
     <!-- 标题和搜索部分 -->
     <div class="box">
-        <div class="title">Search Recipes</div>
+        <div class="title">Search Recipes </div>
         <div class="search">
-            <input type="text" placeholder="Dishes name or ingredients here (optional)">
-            <button>Search</button>
+            <form action="" >
+            <form action="/" method="post" >
+            <input"text" name="Search" placeholder="Dishes name or ingredients here (optional)">
+            <input type="submit" formmethod="post">
+            <input type="reset">
+            <br>
+            Cuisine
+            <input type="checkbox" name="Cuisine" value="Chinese"/>Chinese
+            <input type="checkbox" name="Cuisine" value="American"/>American
+            <input type="checkbox" name="Cuisine" value="Chinese"/>Chinese
+            <input type="checkbox" name="Cuisine" value="French"/>French
+            <input type="checkbox" name="Cuisine" value="Indian"/>Indian
+            <input type="checkbox" name="Cuisine" value="Japanese"/>Japanese
+            <br>
+            Taste
+            <input type="checkbox" name="Taste" value="Salty"/>Salty
+            <input type="checkbox" name="Taste" value="Sweet"/>Sweet
+            <input type="checkbox" name="Taste" value="Sour"/>Sour
+            <input type="checkbox" name="Taste" value="Spicy"/>Spicy
+            <input type="checkbox" name="Taste" value="Bitter"/>Bitter
+            <br>
+            Course
+            <input type="checkbox" name="Course" value="Main Dish"/>Main Dish
+            <input type="checkbox" name="Course" value="Side Dish "/>Side Dish
+            <input type="checkbox" name="Course" value="Salad"/>Salad
+            <input type="checkbox" name="Course" value="Soup"/>Soup
+            </form>
         </div>
 
         <!-- cuisine filter -->
-        <div class="filters clearfix">
+       <div class="filter1 clearfix">
             <ul class="cuisine">
                 <li class="f1">Cuisine</li>
-                <li>
-                    <select name="cuisine" class="custom-select" multiple>
-                        <option value="American">American</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="French">French</option>
-                        <option value="Inian">Inian</option>
-                        <option value="Japanese">Japanese</option>
-                    </select>
-                </li>
+                <li>American</li>
+                <li>Chinese</li>
+                <li>French</li>
+                <li>Indian</li>
+                <li>Japanese</li>
             </ul>
         </div>
 
-
         <!-- taste filter -->
-        <div class="filters clearfix">
+        <div class="filter2 clearfix">
             <ul class="taste">
                 <li class="f2">Taste</li>
-                <li>
-                    <select name="taste" class="custom-select" multiple>
-                        <option value="salty">Salty</option>
-                        <option value="sweet">Sweet</option>
-                        <option value="sour">Sour</option>
-                        <option value="spicy">Spicy</option>
-                        <option value="bitter">Bitter</option>
-                    </select>
-                </li>
+                <li>Salty</li>
+                <li>Sweet</li>
+                <li>Sour</li>
+                <li>Spicy</li>
+                <li>Bitter</li>
             </ul>
         </div>
 
         <!-- course filter -->
-        <div class="filters clearfix">
+        <div class="filter3 clearfix">
             <ul class="course">
                 <li class="f3">Course</li>
-                <li>
-                    <select name="course" class="custom-select" multiple>
-                        <option value="main_dish">Main Dish</option>
-                        <option value="side_dish">Side Dish</option>
-                        <option value="salad">Salad</option>
-                        <option value="soup">Soup</option>
-                    </select>
-                </li>
+                <li>Main Dish</li>
+                <li>Side Dish</li>
+                <li>Salad</li>
+                <li>Soup</li>
             </ul>
         </div>
     </div>
@@ -82,30 +92,35 @@
         <div class="dailyrecipe">
             <ul>
                 <li>
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
+                    < img src="#" alt="none">
+                    <p>< a href="#">recipe link</ a></p >
                 </li>
                 <li>
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
+                    < img src="#" alt="none">
+                    <p>< a href="#">recipe link</ a></p >
                 </li>
                 <li>
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
+                    < img src="#" alt="none">
+                    <p>< a href="#">recipe link</ a></p >
                 </li>
                 <li class="dailylast">
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
+                    < img src="#" alt="none">
+                    <p>< a href="#">recipe link</ a></p >
                 </li>
             </ul>
         </div>
     </div>
 
-    <!-- footer -->
-    <div class="footer">
-        <div class="copyright">Copyright @ 2022 FIT3164 Data Science Group4</div>
-    </div>
-    <script src="homepage.js"></script>
-</body>
 
+
+
+    <!-- copyright -->
+    <div class="footer">
+        Copyright @ 2022 FIT3164 Data Science Gropu4
+    </div>
+
+
+
+
+</body>
 </html>

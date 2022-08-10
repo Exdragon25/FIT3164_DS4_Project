@@ -11,29 +11,33 @@ app.config.from_object(config)  # 导入config
 MC = MongoClient("127.0.0.1", 27017)
 DB = MC.fit3164
 
-dish_coll = DB.dish_analysis
 usr_coll = DB.user_data
+app = Flask(__name__)
+app.config.from_object(config)
 
 
 @app.route("/about/result")
 def about_result():
-    context = {"username": "DS_4"}
+    context = {"username": "ahajhdhisfsi"}
 
-    return render_template("search_result.html", **context)
+    return render_template("search_result.html")
 
 
-# get user input
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=['get', 'post'])
 def search():
-    if request.method == 'GET':
-        output = {"search": request.args.get("Search"),
-                  "cuisine": request.args.getlist("Cuisine"),
-                  "taste": request.args.getlist("Taste"),
-                  "course": request.args.getlist("Course")
-                  }
-        print(output)  # should jump to next search result pages.
-        # return render_result(output)
+    if request.method == 'POST':
+        output = {"Search": request.form.get('Search'),
+                  'Cuisine': request.form.getlist('Cuisine'),
+                  'Taste': request.form.getlist('Taste'),
+                  'Course': request.form.getlist('Course')}
+        print(output)
+
+        return "success"
     return render_template('homepage.html')
+
+
+def process_json(data):
+    return data
 
 
 def render_result(input_dict):
@@ -41,6 +45,8 @@ def render_result(input_dict):
     :param input_dict: a dictionary with user input data for searching
     :return: a render_template function with a new web pages
     """
+    dish_coll = DB.dish_analysis
+    pass
 
 
 if __name__ == '__main__':

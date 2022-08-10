@@ -30,7 +30,7 @@ def search():
                   'Cuisine': request.form.getlist('Cuisine'),
                   'Taste': request.form.getlist('Taste'),
                   'Course': request.form.getlist('Course')}
-        print(output)
+        render_result(output)
 
         return "success"
     return render_template('homepage.html')
@@ -46,6 +46,7 @@ def render_result(input_dict):
     :return: a render_template function with a new web pages
     """
     dish_coll = DB.dish_analysis
+    print(input_dict)
     pass
 
 

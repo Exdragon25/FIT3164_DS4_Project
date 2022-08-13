@@ -29,6 +29,9 @@ def search():
         return "successful"
     return render_template('homepage.html')
 
+@app.route("/signin", methods=['post'])
+def login():
+    return render_template('signin.html')
 
 def process_json(data):
     return data
@@ -38,6 +41,8 @@ def render_result(input_dict):
     """
     :param input_dict: a dictionary with user input data for searching
     :return: a render_template function with a new web pages
+    Ingredient search need to be completed.
+    处理多种可能输入
     """
     result = None
     client = MongoClient()

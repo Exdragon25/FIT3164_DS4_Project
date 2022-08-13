@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dish Recommendation</title>
-    <link rel="stylesheet" href="homepagestyle.css">
+{#    <link rel="stylesheet" href="/homepagestyle.css">#}
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/homepagestyle.css') }}">
 </head>
 
 <body>
@@ -15,7 +16,7 @@
     <div class="nav">
         <ul>
             <li><a href="#" onclick="alert('student123@monash.edu.au')">Contact Us</a></li>
-            <li><a href="signin.html">Login/Register</a></li>
+            <li><a href="signin.html.html">Login/Register</a></li>
         </ul>
     </div>
 
@@ -105,7 +106,8 @@
     <div class="footer">
         <div class="copyright">Copyright @ 2022 FIT3164 Data Science Group4</div>
     </div>
-    <script src="homepage.js"></script>
+{#    <script src="/homepage.js"></script>#}
+    <script src="{{ url_for('static', filename = '/homepage.js') }}"></script>
 </body>
 
 </html>

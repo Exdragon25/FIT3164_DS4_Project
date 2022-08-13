@@ -429,15 +429,15 @@ def render_result(input_dict):
 
     print(result)
 
-    output_coll = {}
+    output_coll = []
     if result is not None:
         if result == "Please do some selection":
             return result
         else:
             for doc in result:
-                output_coll['name'] = doc['name']
+                output_coll.append(doc['name'])
     pprint(output_coll)
-    return output_coll
+    return output_coll # {'name': 'Three-Pea Salad'}
 
 def update_database():
     # result = collname.update_one({"package": "MonITTour"},

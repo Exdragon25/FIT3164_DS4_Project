@@ -41,7 +41,8 @@ def render_result(input_dict):
     """
     :param input_dict: a dictionary with user input data for searching
     :return: a render_template function with a new web pages
-    Ingredient search need to be completed.
+
+    Ingredient[NER] search need to be completed.
     处理多种可能输入
     """
     result = None
@@ -66,6 +67,8 @@ def render_result(input_dict):
     print(len(taste_coll), len(cuisine_input), len(course_input))
     situation_marker = str(len(taste_coll)) + str(len(cuisine_input)) + str(len(course_input))
 
+    result = dish_coll.find({'name': {"$regex": userinput, "$options": "$i"}})
+
     # Here start handle situation.
     # 0 0 0
     if situation_marker == "000":
@@ -73,7 +76,7 @@ def render_result(input_dict):
         if len(userinput) == 0:
             result = "Please do some selection"
         else:
-            result = dish_coll.find({"name": userinput})
+            result = dish_coll.find({'name': {"$regex": userinput, "$options": "$i"}})
     # 0 0 1
     elif situation_marker == "001":
         print('001')
@@ -83,7 +86,7 @@ def render_result(input_dict):
             )
         else:
             result = dish_coll.find(
-                {"name": userinput,
+                {'name': {"$regex": userinput, "$options": "$i"},
                  "course": course_input}
             )
     # 0 0 2
@@ -95,7 +98,7 @@ def render_result(input_dict):
                           {"course": course_input[1]}]})
         else:
             result = dish_coll.find(
-                {"name": userinput,
+                {'name': {"$regex": userinput, "$options": "$i"},
                  "$and": [{"course": course_input[0]},
                           {"course": course_input[1]}]}
             )
@@ -110,7 +113,7 @@ def render_result(input_dict):
             )
         else:
             result = dish_coll.find(
-                {"name": userinput,
+                {'name': {"$regex": userinput, "$options": "$i"},
                  "$and": [{"course": course_input[0]},
                           {"course": course_input[1]},
                           {"course": course_input[2]}]}
@@ -122,7 +125,7 @@ def render_result(input_dict):
         if len(userinput) == 0:
             result = dish_coll.find({"cuisine": cuisine_input[0]})
         else:
-            result = dish_coll.find({"name": userinput, "cuisine": cuisine_input[0]})
+            result = dish_coll.find({'name': {"$regex": userinput, "$options": "$i"}, "cuisine": cuisine_input[0]})
     # 0 1 1
     elif situation_marker == "011":
         print('011')
@@ -132,7 +135,7 @@ def render_result(input_dict):
             )
         else:
             result = dish_coll.find(
-                {"name": userinput,
+                {'name': {"$regex": userinput, "$options": "$i"},
                  "cuisine": cuisine_input[0],
                  "course": course_input}
             )
@@ -146,7 +149,7 @@ def render_result(input_dict):
                           {"course": course_input[1]}]})
         else:
             result = dish_coll.find(
-                {"name": userinput,
+                {'name': {"$regex": userinput, "$options": "$i"},
                  "cuisine": cuisine_input[0],
                  "$and": [{"course": course_input[0]},
                           {"course": course_input[1]}]}
@@ -163,7 +166,7 @@ def render_result(input_dict):
             )
         else:
             result = dish_coll.find(
-                {"name": userinput,
+                {'name': {"$regex": userinput, "$options": "$i"},
                  "cuisine": cuisine_input[0],
                  "$and": [{"course": course_input[0]},
                           {"course": course_input[1]},
@@ -180,7 +183,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8},
             })
     # 1 0 1
@@ -193,7 +196,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8},
                 "course": course_input[0]
             })
@@ -208,7 +211,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8},
                 "$and": [{"course": course_input[0]},
                          {"course": course_input[1]}]
@@ -225,7 +228,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8},
                 "$and": [{"course": course_input[0]},
                          {"course": course_input[1]},
@@ -242,7 +245,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 "cuisine": cuisine_input[0],
                 taste_coll[0]: {"$gte": 0.8},
             })
@@ -257,7 +260,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8},
                 "cuisine": cuisine_input[0],
                 "course": course_input[0]
@@ -274,7 +277,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8},
                 "cuisine": cuisine_input[0],
                 "$and": [{"course": course_input[0]},
@@ -293,7 +296,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8},
                 "cuisine": cuisine_input[0],
                 "$and": [{"course": course_input[0]},
@@ -311,7 +314,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
             })
     # 2 0 1
@@ -324,7 +327,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
                 "course": course_input[0]
             })
@@ -339,7 +342,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
                 "$and": [{"course": course_input[0]},
                          {"course": course_input[1]}]
@@ -356,7 +359,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
                 "$and": [{"course": course_input[0]},
                          {"course": course_input[1]},
@@ -373,7 +376,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 "cuisine": cuisine_input[0],
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
             })
@@ -388,7 +391,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 "cuisine": cuisine_input[0],
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
                 "course": course_input[0]
@@ -405,7 +408,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 "cuisine": cuisine_input[0],
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
                 "$and": [{"course": course_input[0]},
@@ -424,7 +427,7 @@ def render_result(input_dict):
             })
         else:
             result = dish_coll.find({
-                "name": userinput,
+                'name': {"$regex": userinput, "$options": "$i"},
                 "cuisine": cuisine_input[0],
                 taste_coll[0]: {"$gte": 0.8}, taste_coll[1]: {"$gte": 0.8},  # conjunction
                 "$and": [{"course": course_input[0]},

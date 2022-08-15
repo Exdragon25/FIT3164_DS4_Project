@@ -29,20 +29,39 @@ def search():
         return "successful"
     return render_template('homepage.html')
 
+
 @app.route("/signin", methods=['post'])
 def login():
     return render_template('signin.html')
 
-def process_json(data):
-    return data
+def login_register(call_mode: str, user_detail_dict: dict):
+    """
+    This function will provide login/ registration database module by calling from webpage
+    :param call_mode: string for indecate what you want to do with user
+                "login" : for user login
+                "register" : for user registration
+                "view_history" for view history to do ML and recommendation
+                "update_history" for update history when user viewing some dishes
+    :param user_detail_dict: dictionary of user input, mostly are username and password
+    :return: a list for showing 5 situations:
+                1. "Success" For registration
+                2. "This username has already been registered" For registration failed
+                3. "The username or password may be wrong, please try again" For login failed
+                4. "Login successfully" For login
+                5. A list of dish_name that user has searched. For recommendation
+                6. "Update history successfully" For add history
+    """
+    result = None
+    client = MongoClient()
+    db = client.fit3164
+    usr_coll = db.user_collection
+    pass
 
 
 def render_result(input_dict):
     """
     :param input_dict: a dictionary with user input data for searching
     :return: a render_template function with a new web pages
-
-    Ingredient[NER] search need to be completed.
     处理多种可能输入
     """
     result = None
@@ -445,7 +464,8 @@ def render_result(input_dict):
             for doc in result:
                 output_coll.append(doc['name'])
     pprint(output_coll)
-    return output_coll # {'name': 'Three-Pea Salad'}
+    return output_coll  # {'name': 'Three-Pea Salad'}
+
 
 def update_database():
     # result = collname.update_one({"package": "MonITTour"},

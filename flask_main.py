@@ -34,10 +34,11 @@ def search():
 def login():
     return render_template('signin.html')
 
+
 def login_register(call_mode: str, user_detail_dict: dict):
     """
     This function will provide login/ registration database module by calling from webpage
-    :param call_mode: string for indecate what you want to do with user
+    :param call_mode: string for indicate what you want to do with user
                 "login" : for user login
                 "register" : for user registration
                 "view_history" for view history to do ML and recommendation
@@ -55,14 +56,24 @@ def login_register(call_mode: str, user_detail_dict: dict):
     client = MongoClient()
     db = client.fit3164
     usr_coll = db.user_collection
+
+    if call_mode == "login":
+        pass
+    elif call_mode == "register":
+        pass
+    elif call_mode == "view_history":
+        pass
+    elif call_mode == "update_history":
+        pass
     pass
 
 
 def render_result(input_dict):
     """
+    Function for handling the search input and do query on db
     :param input_dict: a dictionary with user input data for searching
     :return: a render_template function with a new web pages
-    处理多种可能输入
+    处理多种可能输入 NER
     """
     client = MongoClient()
     db = client.fit3164
@@ -78,23 +89,22 @@ def render_result(input_dict):
     if user_input == "":
         user_input = "."
 
-    if len(cuisine_input) == 0 and len(course_input) == 0:
+    if len(cuisine_input) == 0 and len(course_input) == 0:  # if no cuisine and course selection.
         result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"}})
-    elif len(cuisine_input) == 0 and len(course_input) != 0:
+    elif len(cuisine_input) == 0 and len(course_input) != 0:  # if only have course selection.
         result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"},
                                  "course": {'$in': course_input}})
-    elif len(cuisine_input) != 0 and len(course_input) == 0:
+    elif len(cuisine_input) != 0 and len(course_input) == 0:  # if only have cuisine selection.
         result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"},
                                  "cuisine": {"$in": cuisine_input}})
-    else:
+    else:  # if both of them have been selected.
         result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"}, "cuisine": {"$in": cuisine_input},
                                  "course": {'$in': course_input}})
     output_coll = []
-
     if result is not None:
         if result == "Please do some selection":
             return output_coll
-        else:
+        else: # Do a filter if the user has selected some taste options.
             for doc in result:
                 add = True
                 for i in taste_input:

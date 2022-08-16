@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from pprint import pprint
 
+
 client = MongoClient()
 db = client.fit3164
 dish_coll = db.Dish_collection
@@ -43,3 +44,8 @@ if result is not None:
             if add:
                 output_coll.append(doc['name'])
 pprint(output_coll)
+
+result = dish_coll.find({"cuisine": {"$or": ['American', 'Chinese']}},
+                        {"course": {"$or": ['Salad']}})
+for doc in result:
+    print(doc)

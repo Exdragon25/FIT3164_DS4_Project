@@ -73,11 +73,11 @@ def login_register(call_mode: str, user_detail_dict: dict):
             co.append(doc)
 
         if len(co) == 1:  # if someone have same username, check the password:
-            user_db = co[0]  # pick the user info from cursor
-            if user_db["password"] == password:
+            user_doc = co[0]  # pick the user info from cursor
+            if user_doc["password"] == password:
                 return "login successfully"
             else:  # if password is wrong.
-                return "The username or password may be wrong, please try again"
+                return "The password may be wrong, please try again"
         else:  # if no this user
             return "The username or password may be wrong, please try again"
 
@@ -104,8 +104,8 @@ def login_register(call_mode: str, user_detail_dict: dict):
             co.append(doc)
 
         if len(co) == 1:  # if someone have same username:
-            user_db = co[0]  # pick the user info from cursor
-            return user_db["user_history"]  # return the history array.
+            user_doc = co[0]  # pick the user info from cursor
+            return user_doc["user_history"]  # return the history array.
 
         else:  # if no this user
             return "The username or password may be wrong, please try again"
@@ -119,11 +119,11 @@ def login_register(call_mode: str, user_detail_dict: dict):
             co.append(doc)
 
         if len(co) == 1:  # if someone have same username:
-            user_db = co[0]  # pick the user info from cursor
-            history_list: list = user_db["user_history"]  # take history from db
+            user_doc = co[0]  # pick the user info from cursor
+            history_list: list = user_doc["user_history"]  # take history from db
             if len(history_list) <= 15:  # if less than 15 history
                 history_list.append(user_history[0])
-                result = user_db.update_one(
+                result = user_doc.update_one(
                     {"username": username},
                     {
                         "$set": {"user_history": history_list}
@@ -136,7 +136,7 @@ def login_register(call_mode: str, user_detail_dict: dict):
                 history_list.pop(0)
                 # and insert new one:
                 history_list.append(user_history[0])
-                result = user_db.update_one(
+                result = user_doc.update_one(
                     {"username": username},
                     {
                         "$set": {"user_history": history_list}

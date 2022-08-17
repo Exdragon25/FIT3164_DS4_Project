@@ -33,18 +33,11 @@ def search():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        uname = request.form.get('uname')
-        pwd = request.form.get('pwd')
+        user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
+        print(user_info)
         # return "successful"
-
-        for i in user:      # idea
-            if i['uname'] == uname and i['pwd'] == pwd:
-                return "Login Successfully"         # 再写一个跳转到原网页的function
-            elif i['uname'] == uname and i['pwd'] != pwd:
-                return render_template("login.html", msg="Wrong password, please try again.")
-            else:
-                return render_template("login.html", msg="User not found. Please register first.")
-
+        result = login_register("login", user_info)
+        return result
     return render_template("login.html")
 
 
@@ -72,7 +65,6 @@ def login_register(call_mode: str, user_detail_dict: dict):
 
     username = user_detail_dict["username"]  # string
     password = user_detail_dict["password"]  # string
-    user_history = user_detail_dict["user_history"]  # list with only 1 record
 
     if call_mode == "login":
         search_result = usr_coll.find({"username": username})
@@ -101,9 +93,11 @@ def login_register(call_mode: str, user_detail_dict: dict):
             return "This username has already been registered"
         else:  # if this username is valid.
             temp = {"username": username, "password": password, "user_history": []}
-            return usr_coll.insert_one(temp)
+            usr_coll.insert_one(temp)
+            return "success"
 
     elif call_mode == "view_history":
+        user_history = user_detail_dict["user_history"]  # list with only 1 record
         search_result = usr_coll.find({"username": username})
 
         co = []
@@ -118,6 +112,7 @@ def login_register(call_mode: str, user_detail_dict: dict):
             return "The username or password may be wrong, please try again"
 
     elif call_mode == "update_history":
+        user_history = user_detail_dict["user_history"]  # list with only 1 record
         search_result = usr_coll.find({"username": username})
 
         co = []
@@ -126,8 +121,8 @@ def login_register(call_mode: str, user_detail_dict: dict):
 
         if len(co) == 1:  # if someone have same username:
             user_db = co[0]  # pick the user info from cursor
-            history_list: list = user_db["user_history"] # take history from db
-            if len(history_list) <= 15: # if less than 15 history
+            history_list: list = user_db["user_history"]  # take history from db
+            if len(history_list) <= 15:  # if less than 15 history
                 history_list.append(user_history[0])
                 result = user_db.update_one(
                     {"username": username},
@@ -135,7 +130,7 @@ def login_register(call_mode: str, user_detail_dict: dict):
                         "$set": {"user_history": history_list}
                     }
                 )
-                update_count = result.matched_count # this should be 1
+                update_count = result.matched_count  # this should be 1
                 return "update success: " + str(update_count)
 
             else:  # if over 15 history, remove the oldest one:
@@ -148,27 +143,29 @@ def login_register(call_mode: str, user_detail_dict: dict):
                         "$set": {"user_history": history_list}
                     }
                 )
-                update_count = result.matched_count # this should be 1
+                update_count = result.matched_count  # this should be 1
                 return "update success: " + str(update_count)
 
         else:  # if no this user
             return "The username or password may be wrong, please try again"
 
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        uname = request.form.get('uname')
-        pwd = request.form.get('pwd')
+        user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
         # return "successful"
+        result = login_register("register", user_info)
+        return result
 
-        for i in user:      # idea
-            if i['uname'] == uname:
-                return render_template("register.html", msg="username already exists, please re-entry.")
-            else:
-                return render_template("login.html", msg="Account created successfully.")    # 再写一个成功跳转原网页的function
+
+        # for i in user:  # idea
+        #     if i['uname'] == uname:
+        #         return render_template("register.html", msg="username already exists, please re-entry.")
+        #     else:
+        #         return render_template("login.html", msg="Account created successfully.")  # 再写一个成功跳转原网页的function
 
     return render_template("register.html")
-
 
 
 def render_result(input_dict):

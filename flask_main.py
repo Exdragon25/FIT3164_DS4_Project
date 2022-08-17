@@ -34,7 +34,6 @@ def search():
 def login():
     if request.method == 'POST':
         user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
-        print(user_info)
         # return "successful"
         result = login_register("login", user_info)
         return result

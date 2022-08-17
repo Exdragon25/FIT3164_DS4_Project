@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dish Recommandation</title>
+    <title>Dish Recommendation</title>
     <style>
       * {
           margin: 0;
@@ -26,11 +26,14 @@
       .signinbutton {
         text-align: center;
       }
+      .signinbutton p {
+        margin-top: 20px;
+      }
     </style>
 
 </head>
 <body>
-    <form action="action_page.php" method="post">
+    <form action="/login" method="POST">
     <h2>Login/Register</h2>  
         <div class="Username">
           <label for="uname"><b>Username</b></label>
@@ -43,9 +46,10 @@
         </div>
         
         <div class="signinbutton">        
-          <button type="submit">Login</button>
-          <button type="submit">Register</button>
+          <input type="submit" value="Login">
+          <p><a href="{{url_for('register')}}">Register</a></p>
         </div>
+        {{msg}}
       </form>
 </body>
 </html>

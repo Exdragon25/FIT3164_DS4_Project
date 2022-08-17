@@ -20,7 +20,7 @@ def about_result():
 
 @app.route("/", methods=['get', 'post'])
 def search():
-    if request.method == 'POST':
+    if request.method == 'post':
         output = {"Search": request.form.get('Search'),
                   'Cuisine': request.form.getlist('Cuisine'),
                   'Taste': request.form.getlist('Taste'),
@@ -30,9 +30,22 @@ def search():
     return render_template('homepage.html')
 
 
-@app.route("/signin", methods=['post'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    return render_template('signin.html')
+    if request.method == 'POST':
+        uname = request.form.get('uname')
+        pwd = request.form.get('pwd')
+        # return "successful"
+
+        for i in user:      # idea
+            if i['uname'] == uname and i['pwd'] == pwd:
+                return "Login Successfully"         # 再写一个跳转到原网页的function
+            elif i['uname'] == uname and i['pwd'] != pwd:
+                return render_template("login.html", msg="Wrong password, please try again.")
+            else:
+                return render_template("login.html", msg="User not found. Please register first.")
+
+    return render_template("login.html")
 
 
 def login_register(call_mode: str, user_detail_dict: dict):
@@ -66,6 +79,23 @@ def login_register(call_mode: str, user_detail_dict: dict):
     elif call_mode == "update_history":
         pass
     pass
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        uname = request.form.get('uname')
+        pwd = request.form.get('pwd')
+        # return "successful"
+
+        for i in user:      # idea
+            if i['uname'] == uname:
+                return render_template("register.html", msg="username already exists, please re-entry.")
+            else:
+                return render_template("login.html", msg="Account created successfully.")    # 再写一个成功跳转原网页的function
+
+    return render_template("register.html")
+
 
 
 def render_result(input_dict):

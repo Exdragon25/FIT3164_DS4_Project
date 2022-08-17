@@ -47,7 +47,7 @@ li {
 }
 
 body {
-    background-image: url(img/bg.png);
+    background-image: url('/static/bg.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;

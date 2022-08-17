@@ -58,10 +58,10 @@ def login_register(call_mode: str, user_detail_dict: dict):
                 "update_history" for update history when user viewing some dishes
     :param user_detail_dict: dictionary of user input, mostly are username and password
     :return: a list for showing 5 situations:
-                1. "Success" For registration
+                1. "success" For registration
                 2. "This username has already been registered" For registration failed
                 3. "The username or password may be wrong, please try again" For login failed
-                4. "Login successfully" For login
+                4. "login successfully" For login
                 5. A list of dish_name that user has searched. For recommendation
                 6. "Update history successfully" For add history
     """
@@ -70,16 +70,89 @@ def login_register(call_mode: str, user_detail_dict: dict):
     db = client.fit3164
     usr_coll = db.user_collection
 
-    if call_mode == "login":
-        pass
-    elif call_mode == "register":
-        pass
-    elif call_mode == "view_history":
-        pass
-    elif call_mode == "update_history":
-        pass
-    pass
+    username = user_detail_dict["username"]  # string
+    password = user_detail_dict["password"]  # string
+    user_history = user_detail_dict["user_history"]  # list with only 1 record
 
+    if call_mode == "login":
+        search_result = usr_coll.find({"username": username})
+
+        co = []
+        for doc in search_result:
+            co.append(doc)
+
+        if len(co) == 1:  # if someone have same username, check the password:
+            user_db = co[0]  # pick the user info from cursor
+            if user_db["password"] == password:
+                return "login successfully"
+            else:  # if password is wrong.
+                return "The username or password may be wrong, please try again"
+        else:  # if no this user
+            return "The username or password may be wrong, please try again"
+
+    elif call_mode == "register":
+        search_result = usr_coll.find({"username": username})
+
+        co = []
+        for doc in search_result:
+            co.append(doc)
+
+        if len(co) != 0:  # if someone have same username
+            return "This username has already been registered"
+        else:  # if this username is valid.
+            temp = {"username": username, "password": password, "user_history": []}
+            return usr_coll.insert_one(temp)
+
+    elif call_mode == "view_history":
+        search_result = usr_coll.find({"username": username})
+
+        co = []
+        for doc in search_result:
+            co.append(doc)
+
+        if len(co) == 1:  # if someone have same username:
+            user_db = co[0]  # pick the user info from cursor
+            return user_db["user_history"]  # return the history array.
+
+        else:  # if no this user
+            return "The username or password may be wrong, please try again"
+
+    elif call_mode == "update_history":
+        search_result = usr_coll.find({"username": username})
+
+        co = []
+        for doc in search_result:
+            co.append(doc)
+
+        if len(co) == 1:  # if someone have same username:
+            user_db = co[0]  # pick the user info from cursor
+            history_list: list = user_db["user_history"] # take history from db
+            if len(history_list) <= 15: # if less than 15 history
+                history_list.append(user_history[0])
+                result = user_db.update_one(
+                    {"username": username},
+                    {
+                        "$set": {"user_history": history_list}
+                    }
+                )
+                update_count = result.matched_count # this should be 1
+                return "update success: " + str(update_count)
+
+            else:  # if over 15 history, remove the oldest one:
+                history_list.pop(0)
+                # and insert new one:
+                history_list.append(user_history[0])
+                result = user_db.update_one(
+                    {"username": username},
+                    {
+                        "$set": {"user_history": history_list}
+                    }
+                )
+                update_count = result.matched_count # this should be 1
+                return "update success: " + str(update_count)
+
+        else:  # if no this user
+            return "The username or password may be wrong, please try again"
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -134,7 +207,7 @@ def render_result(input_dict):
     if result is not None:
         if result == "Please do some selection":
             return output_coll
-        else: # Do a filter if the user has selected some taste options.
+        else:  # Do a filter if the user has selected some taste options.
             for doc in result:
                 add = True
                 for i in taste_input:

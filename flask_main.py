@@ -57,10 +57,23 @@ def login_register(call_mode: str, user_detail_dict: dict):
     db = client.fit3164
     usr_coll = db.user_collection
 
+    username = user_detail_dict["username"]  # string
+    password = user_detail_dict["password"]  # string
+    user_history = user_detail_dict["user_history"]  # list
+
     if call_mode == "login":
         pass
     elif call_mode == "register":
-        pass
+        search_result = usr_coll.find({"username": username})
+        co = []
+        for doc in search_result:
+            co.append(doc)
+        if len(co) != 0: # if someone have same username
+            return "This username has already been registered"
+        else: # if this username is valid.
+            temp = {"username": username, "password": password, "user_history": []}
+            return usr_coll.insert_one(temp)
+
     elif call_mode == "view_history":
         pass
     elif call_mode == "update_history":
@@ -104,7 +117,7 @@ def render_result(input_dict):
     if result is not None:
         if result == "Please do some selection":
             return output_coll
-        else: # Do a filter if the user has selected some taste options.
+        else:  # Do a filter if the user has selected some taste options.
             for doc in result:
                 add = True
                 for i in taste_input:

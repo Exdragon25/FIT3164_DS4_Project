@@ -43,6 +43,10 @@ def search():
     cuisine = request.args.getlist('cuisine')
     taste = request.args.getlist('taste')
     course = request.args.getlist('course')
+    search = search.replace("_", " ")
+    for i in range(len(course)):
+        course[i] = course[i].replace("_", " ")
+    print(search, cuisine, taste, course)
     print(render_result(search, cuisine, taste, course))
     return search
 

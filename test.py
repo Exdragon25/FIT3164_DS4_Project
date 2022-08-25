@@ -222,4 +222,4 @@ def render_result(ingredient, cuisine, taste, course):
     return output_coll
 
 
-# print(ingredient_parser(["bananas", "apples", "rice", "red wine"]))
+print(render_result("", ["American"], [], ["Salads"]))

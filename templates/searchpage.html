@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dish Recommendation</title>
-    <link rel="stylesheet" href="searchpagestyle.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/searchpagestyle.css') }}">
 </head>
 <body>
+    <form action="/search2" method="POST">
     <!-- nav -->
     <div class="nav">
         <div class="title">Dish Recommendation</div>
         <div class="searchbox">
             <input type="text" placeholder="Dishes name or ingredients here (optional)">
-            <button></button>
+            <button type="submit"></button>
         </div>
         <div class="user">username</div>
         <div class="logout">logout</div>
@@ -55,9 +56,9 @@
         <!-- footer -->
     <div class="footer">
         <div class="copyright">Copyright @ 2022 FIT3164 Data Science Group4</div>
-        <div class="backhome"><a href="homepage.html">Home</a></div>
+        <div class="backhome"><a href="/">Home</a></div>
     </div>
-
+    </form>
 </body>
 </html>
 

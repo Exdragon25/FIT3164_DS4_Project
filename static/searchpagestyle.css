@@ -61,7 +61,7 @@ li {
     width: 40px;
     height: 35px;
     border: 0;
-    background: url(img/searchicon.png);
+    background: url('/static/searchicon.png');
     background-size: cover;
 }
 

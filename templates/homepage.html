@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+    <form method="POST">
     <!-- nav -->
     <div class="nav">
         <ul>
@@ -23,8 +23,8 @@
     <div class="box">
         <div class="title">Search Recipes</div>
         <div class="search">
-            <input type="text" placeholder="Dishes name or ingredients here (optional)">
-            <button>Search</button>
+            <input type="text" name="search" placeholder="Dishes name or ingredients here (optional)">
+            <button type="submit">Search</button>
         </div>
 
         <!-- cuisine filter -->
@@ -32,7 +32,7 @@
             <ul class="cuisine">
                 <li class="f1">Cuisine</li>
                 <li>
-                    <select name="cuisine" class="custom-select" multiple>
+                    <select id="CUISINE" name="cuisine" class="custom-select" multiple>
                         <option value="American">American</option>
                         <option value="Chinese">Chinese</option>
                         <option value="French">French</option>
@@ -106,6 +106,8 @@
         <div class="copyright">Copyright @ 2022 FIT3164 Data Science Group4</div>
     </div>
     <script src="{{ url_for('static', filename = '/homepage.js') }}"></script>
+    </form>>
+
 </body>
 
 </html>

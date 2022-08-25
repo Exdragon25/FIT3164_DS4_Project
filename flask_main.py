@@ -1,11 +1,19 @@
 from pprint import pprint
 
-from flask import Flask, jsonify, url_for, render_template, request
+from flask import Flask, jsonify, url_for, render_template, request, redirect
 import config
 import json, time, datetime
 # import pysolr
 import pandas as pd
+import urllib.parse
 from pymongo import MongoClient
+import nltk
+import string
+import ast
+import re
+import unidecode
+from nltk import WordNetLemmatizer
+
 
 app = Flask(__name__)
 app.config.from_object(config)  # 导入config
@@ -18,16 +26,26 @@ def about_result():
     return render_template("search_result.html")
 
 
-@app.route("/", methods=['get', 'post'])
-def search():
-    if request.method == 'post':
-        output = {"Search": request.form.get('Search'),
-                  'Cuisine': request.form.getlist('Cuisine'),
-                  'Taste': request.form.getlist('Taste'),
-                  'Course': request.form.getlist('Course')}
-        render_result(output)
-        return "successful"
+@app.route("/", methods=['GET', 'POST'])
+def passingfunc():
+    if request.method == 'POST':
+        output = {'search': request.form.get('search'),
+                  'cuisine': request.form.getlist('cuisine'),
+                  'taste': request.form.getlist('taste'),
+                  'course': request.form.getlist('course')}
+        return redirect("http://127.0.0.1:5000/search?" + urllib.parse.urlencode(output, doseq=True))
     return render_template('homepage.html')
+
+
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    search = request.args.get('search')
+    cuisine = request.args.getlist('cuisine')
+    taste = request.args.getlist('taste')
+    course = request.args.getlist('course')
+    print(render_result(search, cuisine, taste, course))
+    return search
+
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -167,57 +185,223 @@ def register():
     return render_template("register.html")
 
 
-def render_result(input_dict):
-    """
-    Function for handling the search input and do query on db
-    :param input_dict: a dictionary with user input data for searching
-    :return: a render_template function with a new web pages
-    处理多种可能输入 NER
-    """
+def render_result(ingredient, cuisine, taste, course):
+    def ingredient_parser(ingreds):
+        measures = [
+            "teaspoon",
+            "t",
+            "tsp.",
+            "tablespoon",
+            "T",
+            "tbl.",
+            "tb",
+            "tbsp.",
+            "fluid ounce",
+            "fl oz",
+            "gill",
+            "cup",
+            "c",
+            "pint",
+            "p",
+            "pt",
+            "fl pt",
+            "quart",
+            "q",
+            "qt",
+            "fl qt",
+            "gallon",
+            "g",
+            "gal",
+            "ml",
+            "milliliter",
+            "millilitre",
+            "cc",
+            "mL",
+            "l",
+            "liter",
+            "litre",
+            "L",
+            "dl",
+            "deciliter",
+            "decilitre",
+            "dL",
+            "bulb",
+            "level",
+            "heaped",
+            "rounded",
+            "whole",
+            "pinch",
+            "medium",
+            "slice",
+            "pound",
+            "lb",
+            "#",
+            "ounce",
+            "oz",
+            "mg",
+            "milligram",
+            "milligramme",
+            "g",
+            "gram",
+            "gramme",
+            "kg",
+            "kilogram",
+            "kilogramme",
+            "x",
+            "of",
+            "mm",
+            "millimetre",
+            "millimeter",
+            "cm",
+            "centimeter",
+            "centimetre",
+            "m",
+            "meter",
+            "metre",
+            "inch",
+            "in",
+            "milli",
+            "centi",
+            "deci",
+            "hecto",
+            "kilo",
+        ]
+
+        if isinstance(ingreds, list):
+            ingredients = ingreds
+        else:
+            ingredients = ast.literal_eval(ingreds)
+
+        # remove all the punctuations
+        translator = str.maketrans("", "", string.punctuation)
+        # initialize WordNetlemmatizer, WordNetlemmatizer can find the base of a word, for example, apples -> apple
+        lemmatizer = WordNetLemmatizer()
+        ingred_list = []
+        for i in ingredients:
+            i.translate(translator)
+            # split up hyphens and spaces
+            items = re.split(" |-", i)
+            # remove the words containing non-alphabet letters
+            items = [word for word in items if word.isalpha()]
+            # every word to lowercase
+            items = [word.lower() for word in items]
+            # remove accents
+            items = [
+                unidecode.unidecode(word) for word in items
+            ]
+            # Lemmatize words so we can compare words to measuring words
+            items = [lemmatizer.lemmatize(word) for word in items]
+            stop_words = set(nltk.corpus.stopwords.words('english'))
+            items = [word for word in items if word not in stop_words]
+            # Gets rid of measuring words/phrases, e.g. heaped teaspoon
+            items = [word for word in items if word not in measures]
+
+            if items:
+                word = " ".join(items)
+                if word not in ingred_list:
+                    ingred_list.append(word)
+        return ingred_list
+
     client = MongoClient()
     db = client.fit3164
     dish_coll = db.Dish_collection
 
-    print(input_dict)
+    add_result = None
+    result = None
+    ingredient_search = False
+    empty_input = False
 
-    user_input = input_dict["Search"]  # String
-    cuisine_input = input_dict["Cuisine"]  # List = 1
-    taste_input = input_dict["Taste"]  # list <= 2
-    course_input = input_dict["Course"]  # list <= 3
+    # if empty input, then search everything
+    if ingredient == "":
+        empty_input = True
+        ingredient = "."
+    # if contains , then search ingredient
+    elif ingredient.__contains__(","):
+        ingredient_search = True
 
-    if user_input == "":
-        user_input = "."
+    # if input has no comma
+    if not ingredient_search:
+        # no cuisine and course selected
+        if len(cuisine) == 0 and len(course) == 0:
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"}})
+        # only course selected
+        elif len(cuisine) == 0 and len(course) != 0:
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"},
+                                     "course": {'$in': course}})
+        # only cuisine selected
+        elif len(cuisine) != 0 and len(course) == 0:
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"},
+                                     "cuisine": {"$in": cuisine}})
+        # cuisine and course are selected
+        else:
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"}, "cuisine": {"$in": cuisine},
+                                     "course": {'$in': course}})
 
-    if len(cuisine_input) == 0 and len(course_input) == 0:  # if no cuisine and course selection.
-        result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"}})
-    elif len(cuisine_input) == 0 and len(course_input) != 0:  # if only have course selection.
-        result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"},
-                                 "course": {'$in': course_input}})
-    elif len(cuisine_input) != 0 and len(course_input) == 0:  # if only have cuisine selection.
-        result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"},
-                                 "cuisine": {"$in": cuisine_input}})
-    else:  # if both of them have been selected.
-        result = dish_coll.find({'name': {"$regex": user_input, "$options": "$i"}, "cuisine": {"$in": cuisine_input},
-                                 "course": {'$in': course_input}})
+    # do not need additional search if empty input
+    # If user input a words without comma, or user input a list of ingredient,
+    # we do an additional search. Because a single word without comma may also be an ingredient, not a recipe name.
+    if not empty_input:
+        if ingredient_search:
+            user_input_li = ingredient.split(",")
+            # we use ingredient parser to clean up the input
+            ingredient = ingredient_parser(user_input_li)
+        else:
+            # if input is a single word, we make it into a list so we can do $in query
+            ingredient = [ingredient]
+            # similar code to above
+        if len(cuisine) == 0 and len(course) == 0:
+            add_result = dish_coll.find({'NER': {"$in": ingredient}})
+        elif len(cuisine) == 0 and len(course) != 0:
+            add_result = dish_coll.find({'NER': {"$in": ingredient},
+                                         "course": {'$in': course}})
+        elif len(cuisine) != 0 and len(course) == 0:
+            add_result = dish_coll.find({'NER': {"$in": ingredient},
+                                         "cuisine": {"$in": cuisine}})
+        else:
+            add_result = dish_coll.find({'NER': {"$in": ingredient}, "cuisine": {"$in": cuisine},
+                                         "course": {'$in': course}})
+
     output_coll = []
+    # we lastly filter the result with taste chosen
     if result is not None:
-        if result == "Please do some selection":
-            return output_coll
-        else:  # Do a filter if the user has selected some taste options.
-            for doc in result:
-                add = True
-                for i in taste_input:
-                    if doc['taste'] is not None:
-                        if doc['taste'].get(i) is None:
-                            add = False
-                            break
-                        if doc['taste'].get(i) < 0.8:
-                            add = False
-                            break
-                if add:
-                    output_coll.append(doc['name'])
-    pprint(output_coll)
+        for doc in result:
+            add = True
+            # do not add into list if taste is not what isn't wants or taste data == None
+            for i in taste:
+                if doc['taste'] is not None:
+                    if doc['taste'].get(i) is None:
+                        add = False
+                        break
+                    if doc['taste'].get(i) < 0.8:
+                        add = False
+                        break
+                else:
+                    add = False
+            if add:
+                output_coll.append(doc["name"])
+
+    # similar to the code above
+    if add_result is not None:
+        for doc in add_result:
+            add = True
+            for i in taste:
+                if doc['taste'] is not None:
+                    if doc['taste'].get(i) is None:
+                        add = False
+                        break
+                    if doc['taste'].get(i) < 0.8:
+                        add = False
+                        break
+                else:
+                    add = False
+            # do not add in duplicate
+            if add and doc['name'] not in output_coll:
+                output_coll.append(doc["name"])
     return output_coll
+
+
+# @app.route("")
+
 
 
 def update_database():

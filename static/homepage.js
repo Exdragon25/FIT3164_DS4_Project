@@ -45,8 +45,8 @@ class CustomSelect {
       itemElement.classList.remove("select__item--selected");
     }
   }
-  
+
   document.querySelectorAll(".custom-select").forEach((selectElement) => {
     new CustomSelect(selectElement);
   });
-  
+

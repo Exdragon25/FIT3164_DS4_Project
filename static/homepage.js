@@ -49,4 +49,3 @@ class CustomSelect {
   document.querySelectorAll(".custom-select").forEach((selectElement) => {
     new CustomSelect(selectElement);
   });
-

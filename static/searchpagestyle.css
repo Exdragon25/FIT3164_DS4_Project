@@ -36,6 +36,9 @@ li {
     font-family: 'Inter';
     font-weight: 700;
 }
+.nav .title .a {
+    coloe: black;
+}
 
 .nav .searchbox {
     float: left;
@@ -84,15 +87,17 @@ li {
 }
 
 .filter {
-    height: 710px;
-    width: 300px;
+    height: 1000px;
+    width: 20%;
     border: 2px solid black;
     border-radius: 10px;
     margin: 40px 40px;
+    float: left;
+    margin-bottom: calc(100% - 1120px);
 }
 
 .filter .cuisine {
-    height: 205px;
+    height: 285px;
     border-bottom: 2px solid black;
     padding-left: 20px;
     padding-top: 20px;
@@ -100,15 +105,16 @@ li {
     font-size: 20px;
 }
 .filter .taste {
-    height: 205px;
+    height: 185px;
     border-bottom: 2px solid black;
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
     font-size: 20px;
+    position: relative;
 }
 .filter .course {
-    height: 205px;
+    height: 605px;
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -118,7 +124,17 @@ li {
     width: 20px;
     height: 20px;
 }
-
+.result1_left {
+    width: 40%;
+    margin: 40px 40px;
+    margin-top: 40px;
+    min-height: calc(100% - 120px);
+}
+.result_right {
+    width: 40%;
+    min-height: calc(100% - 120px);
+    float: right;
+}
 
 
 
@@ -137,6 +153,8 @@ li {
     font-size: 16px;
     text-align: right;
     line-height: 50px;
+    clear: both;
+    margin-bottom: 0px;
 }
 .footer .copyright {
     float: right;

@@ -222,4 +222,16 @@ def render_result(ingredient, cuisine, taste, course):
     return output_coll
 
 
-print(render_result("", ["American"], [], ["Salads"]))
+client = MongoClient()
+db = client.fit3164
+dish_coll = db.Dish_collection
+result = 0
+cuisine_li = []
+for testy in dish_coll.find().distinct('course'):
+    cuisine_li.append(testy)
+for i in cuisine_li:
+    result = 0
+    for x in dish_coll.find({"course": {"$regex": i, "$options": "$i"}}):
+        result += 1
+    print((i, result))
+# print(render_result("", ["American"], [], ["Salads"]))

@@ -33,12 +33,17 @@ def passingfunc():
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
-        return redirect("http://127.0.0.1:5000/search?" + urllib.parse.urlencode(output, doseq=True))
+        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     return render_template('homepage.html')
 
 
-@app.route("/search", methods=['GET', 'POST'])
-def search():
+@app.route('/<int:page_number>/search', methods=['GET', 'POST'])
+def search(page_number):
+    if request.method == 'POST' and request.form['submit_button'] == 'next_page':
+        next_page_number = page_number + 1
+        full_path = request.full_path.split("/")
+        print(str(next_page_number), page_number)
+        return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
     search = request.args.get('search')
     cuisine = request.args.getlist('cuisine')
     taste = request.args.getlist('taste')
@@ -47,9 +52,19 @@ def search():
     for i in range(len(course)):
         course[i] = course[i].replace("_", " ")
     result = render_result(search, cuisine, taste, course)
-    print(result)
+    if len(result) > page_number *40:
+        result = result[(page_number-1)*40:page_number * 40 - 1]
+        next_page = True
+    else:
+        result = result[(page_number-1) * 40:]
+        next_page = False
 
-    return render_template('searchpage.html', data=result)
+    mid_index = len(result)//2
+    result_right = result[:mid_index]
+    result_left = result[mid_index:]
+    print(result)
+    print(next_page)
+    return render_template('searchpage.html', result_right=result_right, result_left=result_left, next_page=next_page)
 
 
 

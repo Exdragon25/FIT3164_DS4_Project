@@ -44,6 +44,15 @@ def search(page_number):
         full_path = request.full_path.split("/")
         print(str(next_page_number), page_number)
         return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
+
+    if request.method == 'POST' and (request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
+        output = {'search': request.form.get('search'),
+                  'cuisine': request.form.getlist('cuisine'),
+                  'taste': request.form.getlist('taste'),
+                  'course': request.form.getlist('course')}
+        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+
+
     search = request.args.get('search')
     cuisine = request.args.getlist('cuisine')
     taste = request.args.getlist('taste')

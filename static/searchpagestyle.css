@@ -104,6 +104,9 @@ li {
     padding-bottom: 20px;
     font-size: 20px;
 }
+.filter .cuisine .button{
+    float: right;
+}
 .filter .taste {
     height: 185px;
     border-bottom: 2px solid black;

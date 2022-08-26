@@ -6,7 +6,7 @@ for (i in sURLVariables) {
   let value=decodeURIComponent(sParameter[1])
   value = value.replace("+", " ")
   if (name=='search'){
-    document.getElementById("searchbar").value = value
+    document.getElementById("search").value = value
   }
   //Here is a loop
   //Do something for each name-value pair

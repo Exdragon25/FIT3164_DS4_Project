@@ -36,9 +36,6 @@ li {
     font-family: 'Inter';
     font-weight: 700;
 }
-.nav .title .a {
-    coloe: black;
-}
 
 .nav .searchbox {
     float: left;
@@ -46,7 +43,6 @@ li {
     width: 800px;
     margin: 17.5px 0;
     background-color: #fff;
-
 }
 
 .nav .searchbox input {
@@ -104,9 +100,7 @@ li {
     padding-bottom: 20px;
     font-size: 20px;
 }
-.filter .cuisine .button{
-    float: right;
-}
+
 .filter .taste {
     height: 185px;
     border-bottom: 2px solid black;

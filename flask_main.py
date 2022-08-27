@@ -76,7 +76,6 @@ def search(page_number):
     return render_template('searchpage.html', result_right=result_right, result_left=result_left, next_page=next_page)
 
 
-
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -124,9 +123,9 @@ def login_register(call_mode: str, user_detail_dict: dict):
             if user_doc["password"] == password:
                 return "login successfully"
             else:  # if password is wrong.
-                return "The password may be wrong, please try again"
+                return render_template("login.html", msg="The password may be wrong, please try again.")
         else:  # if no this user
-            return "The username or password may be wrong, please try again"
+            return render_template("login.html", msg="The username may be wrong, please try again.")
 
     elif call_mode == "register":
         search_result = usr_coll.find({"username": username})
@@ -136,7 +135,7 @@ def login_register(call_mode: str, user_detail_dict: dict):
             co.append(doc)
 
         if len(co) != 0:  # if someone have same username
-            return "This username has already been registered"
+            return render_template("register.html", msg="This username has already been registered.")
         else:  # if this username is valid.
             temp = {"username": username, "password": password, "user_history": []}
             usr_coll.insert_one(temp)
@@ -155,7 +154,7 @@ def login_register(call_mode: str, user_detail_dict: dict):
             return user_doc["user_history"]  # return the history array.
 
         else:  # if no this user
-            return "The username or password may be wrong, please try again"
+            return "The username or password may be wrong, please try again."
 
     elif call_mode == "update_history":
         user_history = user_detail_dict["user_history"]  # list with only 1 record
@@ -193,7 +192,7 @@ def login_register(call_mode: str, user_detail_dict: dict):
                 return "update success: " + str(update_count)
 
         else:  # if no this user
-            return "The username or password may be wrong, please try again"
+            return "The username or password may be wrong, please try again."
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -430,7 +429,6 @@ def render_result(ingredient, cuisine, taste, course):
 
 
 # @app.route("")
-
 
 
 def update_database():

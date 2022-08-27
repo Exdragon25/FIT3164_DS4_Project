@@ -34,7 +34,7 @@
 </head>
 <body>
     <form action="/login" method="POST">
-    <h2>Login/Register</h2>  
+    <h2>Login</h2>
         <div class="Username">
           <label for="uname"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="uname" required>
@@ -47,9 +47,11 @@
         
         <div class="signinbutton">        
           <input type="submit" value="Login">
-          <p><a href="{{url_for('register')}}">Register</a></p>
-        </div>
-        {{msg}}
+            <p><a href="{{url_for('register')}}">Register</a></p>
+            <p><a href="/">Home</a></p>
+        </div><br>
+
+        <div style="text-align: center;color:red;">{{msg}}</div>
       </form>
 </body>
 </html>

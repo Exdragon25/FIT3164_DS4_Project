@@ -123,7 +123,7 @@ def render_result(ingredient, cuisine, taste, course):
                     ingred_list.append(word)
         return ingred_list
 
-
+    print(ingredient_parser(["bananas", "water"]))
     client = MongoClient()
     db = client.fit3164
     dish_coll = db.Dish_collection
@@ -221,17 +221,9 @@ def render_result(ingredient, cuisine, taste, course):
                 output_coll.append(doc["name"])
     return output_coll
 
+print(render_result("Green Beans Vinaigrette", ["American"], [], ["Salads"]))
 
-client = MongoClient()
-db = client.fit3164
-dish_coll = db.Dish_collection
-result = 0
-cuisine_li = []
-for testy in dish_coll.find().distinct('course'):
-    cuisine_li.append(testy)
-for i in cuisine_li:
-    result = 0
-    for x in dish_coll.find({"course": {"$regex": i, "$options": "$i"}}):
-        result += 1
-    print((i, result))
-# print(render_result("", ["American"], [], ["Salads"]))
+# client = MongoClient()
+# db = client.fit3164
+# dish_coll = db.Dish_collection
+# dish_coll.drop()

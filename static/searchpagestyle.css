@@ -6,6 +6,9 @@
 a {
     text-decoration: none;
 }
+a:hover {
+    color: #ff8500;
+}
 
 li {
     list-style: none;
@@ -121,18 +124,7 @@ li {
     width: 20px;
     height: 20px;
 }
-.result_left {
-    width: 40%;
-    margin: 40px 40px;
-    margin-top: 40px;
-    min-height: calc(100% - 120px);
-}
-.result_right {
-    margin: 40px 40px;
-    width: 40%;
-    min-height: calc(100% - 120px);
-    float: right;
-}
+
 .result_right ul li a {
     color:black;
 }

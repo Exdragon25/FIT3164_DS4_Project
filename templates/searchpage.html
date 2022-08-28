@@ -6,12 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dish Recommendation</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = '/searchpagestyle.css') }}">
+    <style>
+        a:hover {
+            color: #ff8500;
+        }
+        .nav .title a {
+            color:black;}
+    </style>
 </head>
 <body>
     <form method="POST">
     <!-- nav -->
     <div class="nav">
-        <div class="title"><a href="/" style="color:black">Dish Recommendation</a></div>
+        <div class="title"><a href="/">Dish Recommendation</a></div>
         <div class="searchbox">
             <input type="text" id ="search" name="search" placeholder="Dishes name or ingredients here (optional)">
             <button type="submit" name="submit_button" value="search"></button>
@@ -67,25 +74,31 @@
             <input type="checkbox" name="course" value="Snacks"/> Snacks<br>
         </div>
     </div>
-        <div class="result_right">
-            <ul>
-                {% for data in result_right %}
-                    <li><a href="{{ data }}" style="color:black;">{{ data }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="result_left">
-            <ul>
-                {% for data in result_left %}
-                    <li><a href="{{ data }}" style="color:black;">{{ data }}</a></li>
-                {% endfor %}
-            </ul>
-            {% if next_page == True %}
-                <button type="submit" name="submit_button" value="next_page"> Next Page</button>
-            {% endif %}
-        </div>
 
-        <!-- footer -->
+<!--    results    -->
+    <div class="result_right" style="margin:70px 70px 70px 70px;">
+        <ul>
+            {% for data in result_right %}
+                <li><a href="{{ data }}"
+                       style="color:black; a:hover{color:#ff8500;}">
+                    {{ data }}
+                </a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="result_left"
+         style="margin:70px 70px 70px 70px;">
+        <ul>
+            {% for data in result_left %}
+                <li><a href="{{ data }}" style="color:black;">{{ data }}</a></li>
+            {% endfor %}
+        </ul>
+        {% if next_page == True %}
+            <button type="submit" name="submit_button" value="next_page" style="margin-top:30px">Next Page</button>
+        {% endif %}
+    </div>
+
+    <!-- footer -->
     <div class="footer">
         <div class="copyright">Copyright @ 2022 FIT3164 Data Science Group4</div>
         <div class="backhome"><a href="/">Home</a></div>

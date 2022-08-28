@@ -22,7 +22,7 @@
 
     <!-- filter -->
     <div class="filter">
-        <div class="cuisine">
+        <div class="cuisine" id="filter1">
             <h3>Cuisine
                 <button type="submit" name="submit_button" value="apply" style="margin-left:20px; width:50px; height:25px;">Apply</button>
                 <button type="button" id="resetBtn" style="margin-left:20px; width:50px; height:25px;">Reset</button>
@@ -39,7 +39,7 @@
             <input type="checkbox" name="cuisine" value="Thai"/> Thai<br>
 
         </div>
-        <div class="taste">
+        <div class="taste" id="filter2">
             <h3>Taste</h3><br>
             <input type="checkbox" name="taste" value="salty"/> Salty<br>
             <input type="checkbox" name="taste" value="sweet"/> Sweet<br>
@@ -48,7 +48,7 @@
             <input type="checkbox" name="taste" value="bitter"/> Bitter<br>
             <input type="checkbox" name="taste" value="meaty"/> Meaty<br>
         </div>
-        <div class="course">
+        <div class="course" id="filter3">
             <h3>Course</h3><br>
             <input type="checkbox" name="course" value="Main Dishes"/> Main Dishes<br>
             <input type="checkbox" name="course" value="Side Dishes"/> Side Dishes<br>
@@ -70,14 +70,14 @@
         <div class="result_right">
             <ul>
                 {% for data in result_right %}
-                    <li><a href="{{ data }}">{{ data }}</a></li>
+                    <li><a href="{{ data }}" style="color:black;">{{ data }}</a></li>
                 {% endfor %}
             </ul>
         </div>
         <div class="result_left">
             <ul>
                 {% for data in result_left %}
-                    <li><a href="{{ data }}">{{ data }}</a></li>
+                    <li><a href="{{ data }}" style="color:black;">{{ data }}</a></li>
                 {% endfor %}
             </ul>
             {% if next_page == True %}

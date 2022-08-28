@@ -1,5 +1,6 @@
 from pprint import pprint
-
+import pymongo
+import numpy as np
 from flask import Flask, jsonify, url_for, render_template, request, redirect
 import config
 import json, time, datetime
@@ -24,6 +25,13 @@ def about_result():
     context = {"username": "ahajhdhisfsi"}
 
     return render_template("search_result.html")
+
+
+@app.route('/get_cookie')
+def get_cookie():
+    c=request.cookies.get("User")
+    print(type(c))
+    return c
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -52,16 +60,17 @@ def search(page_number):
                   'course': request.form.getlist('course')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
 
-
     search = request.args.get('search')
     cuisine = request.args.getlist('cuisine')
     taste = request.args.getlist('taste')
     course = request.args.getlist('course')
+    print(search, cuisine)
     search = search.replace("_", " ")
     for i in range(len(course)):
         course[i] = course[i].replace("_", " ")
     result = render_result(search, cuisine, taste, course)
-    if len(result) > page_number *40:
+    print(result)
+    if len(result) > page_number * 40:
         result = result[(page_number-1)*40:page_number * 40 - 1]
         next_page = True
     else:
@@ -71,9 +80,8 @@ def search(page_number):
     mid_index = len(result)//2
     result_right = result[:mid_index]
     result_left = result[mid_index:]
-    print(result)
     print(next_page)
-    return render_template('searchpage.html', result_right=result_right, result_left=result_left, next_page=next_page)
+    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page)
 
 
 @app.route("/login", methods=['GET', 'POST'])

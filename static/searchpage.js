@@ -20,12 +20,18 @@ for (i in sURLVariables) {
 
 var element = document.getElementById('resetBtn');
 element.onclick = function () {
-    let collection = document.querySelectorAll('input[type="checkbox"]')
-    for(j in collection){
-    //searching for matching names (for checkboxes)
-        collection[j].checked=false
-    }
+    for (i=0; i<document.filter1.cuisine.length;i++)
+        document.filter1.cuisine[i].checked = false;
+    for (i=0; i<document.filter2.taste.length;i++)
+        document.filter2.taste[i].checked = false;
+    for (i=0; i<document.filter3.course.length;i++)
+        document.filter3.course[i].checked = false;
 };
 
-
-
+//element.onclick = function () {
+//    let collection = document.querySelectorAll('input[type="checkbox"]')
+//    for(j in collection){
+//    //searching for matching names (for checkboxes)
+//        collection[j].checked=false
+//    }
+//};

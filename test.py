@@ -223,7 +223,6 @@ def render_result(ingredient, cuisine, taste, course):
 
 print(render_result("Green Beans Vinaigrette", ["American"], [], ["Salads"]))
 
-# client = MongoClient()
-# db = client.fit3164
-# dish_coll = db.Dish_collection
-# dish_coll.drop()
+client = MongoClient()
+db = client.fit3164
+dish_coll = db.Dish_collection

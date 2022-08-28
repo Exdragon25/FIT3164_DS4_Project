@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
 }
+html, body {
+    height:100%;
+}
 
 a {
     text-decoration: none;
@@ -36,15 +39,18 @@ li {
     line-height: 70px;
     margin: 0 40px;
     font-size: 27px;
-    font-family: 'Inter';
+    font-family: 'Inter', serif;
     font-weight: 700;
+}
+.nav .title a {
+    color:black;
 }
 
 .nav .searchbox {
     float: left;
     height: 35px;
     width: 800px;
-    margin: 17.5px 0;
+    margin: 18px 0;
     background-color: #fff;
 }
 
@@ -72,7 +78,7 @@ li {
     margin-left: 180px;
     line-height: 70px;
     font-size: 20px;
-    font-family: 'Inter';
+    font-family: 'Inter', serif;
     font-weight: 700;
 }
 
@@ -81,7 +87,7 @@ li {
     margin-right: 30px;
     line-height: 70px;
     font-size: 20px;
-    font-family: 'Inter';
+    font-family: 'Inter', serif;
     font-weight: 700;
 }
 
@@ -90,9 +96,8 @@ li {
     width: 20%;
     border: 2px solid black;
     border-radius: 10px;
-    margin: 40px 40px;
     float: left;
-    margin-bottom: calc(100% - 1120px);
+    margin: 40px 40px calc(100% - 1120px);
 }
 
 .filter .cuisine {
@@ -124,13 +129,40 @@ li {
     width: 20px;
     height: 20px;
 }
+.filter button{
+    margin-left:20px;
+    width:50px;
+    height:25px;
+}
 
+.result_left {
+    width: 40%;
+    margin: 70px 70px;
+    min-height: calc(100% - 120px);
+    color:black;
+}
+.result_right {
+    margin: 70px 70px;
+    width: 40%;
+    min-height: calc(100% - 120px);
+    float: right;
+}
+.result_right button{
+    margin-top: 30px;
+}
 .result_right ul li a {
+    color:black;
+}
+.result_left ul li a {
     color:black;
 }
 .result_right ul li a:hover {
     color: #ff8500;
 }
+.result_left ul li a:hover {
+    color: #ff8500;
+}
+
 
 
 
@@ -149,7 +181,7 @@ li {
     text-align: right;
     line-height: 50px;
     clear: both;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .footer .copyright {
     float: right;

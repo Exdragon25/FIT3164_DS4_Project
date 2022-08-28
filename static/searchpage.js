@@ -18,7 +18,7 @@ for (i in sURLVariables) {
 }
 //reference: https://stackoverflow.com/questions/53412961/function-to-select-options-and-check-checkboxes-based-on-url-params-on-document
 
-var element = document.getElementById('reset');
+var element = document.getElementById('resetBtn');
 element.onclick = function () {
     let collection = document.querySelectorAll('input[type="checkbox"]')
     for(j in collection){

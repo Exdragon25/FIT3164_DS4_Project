@@ -88,7 +88,7 @@ def login():
     if request.method == 'POST':
         user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
         # return "successful"
-        result = login_register("login", user_info)
+        result = login_register("login", user_info) # string
         if result == "login successfully":
             user=request.form.get('uname')
             print(user_info)
@@ -446,8 +446,6 @@ def render_result(ingredient, cuisine, taste, course):
 
 
 def update_database():
-    # result = collname.update_one({"package": "MonITTour"},
-    #                              { "$set": { "name": "Monash IT Faculty Tour"}})
     pass
 
 

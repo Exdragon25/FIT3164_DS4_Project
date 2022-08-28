@@ -1,7 +1,7 @@
 from pprint import pprint
 import pymongo
 import numpy as np
-from flask import Flask, jsonify, url_for, render_template, request, redirect
+from flask import Flask, jsonify, url_for, render_template, request, redirect,make_response
 import config
 import json, time, datetime
 # import pysolr
@@ -18,7 +18,6 @@ from nltk import WordNetLemmatizer
 
 app = Flask(__name__)
 app.config.from_object(config)  # 导入config
-
 
 @app.route("/about/result")
 def about_result():
@@ -90,7 +89,14 @@ def login():
         user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
         # return "successful"
         result = login_register("login", user_info)
-        return result
+        if result == "login successfully":
+            user=request.form.get('uname')
+            print(user_info)
+            resp=make_response(redirect('/'))
+            resp.set_cookie('User',user,max_age=36000)
+            return resp
+        else:
+            return result
     return render_template("login.html")
 
 

@@ -35,7 +35,7 @@ li {
     padding: 0 20px;
     color: #FFFFFF;
     height: 40px;
-    font-family: 'Inter';
+    font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 400;
     font-size: 17px;
@@ -55,8 +55,7 @@ body {
 }
 
 .box {
-    margin: 0 auto;
-    margin-top: 250px;
+    margin: 250px auto 0;
     width: 680px;
     height: 380px;
     background-color: transparent;
@@ -64,7 +63,7 @@ body {
 
 .box .title {
     color: #FFFFFF;
-    font-family: 'Inter';
+    font-family: 'Inter', serif;
     font-style: normal;
     font-weight: 400;
     font-size: 60px;
@@ -135,6 +134,7 @@ body {
     margin-top: 60px;
     height: 600px;
     background-color: #fff;
+    width:100%;
 }
 
 .dailyrecom .dailytitle {
@@ -142,7 +142,7 @@ body {
     padding: 25px;
     text-align: center;
     font-size: 30px;
-    font-family: 'Itim';
+    font-family: 'Itim', serif;
 }
 
 .dailyrecom .dailyrecipe {
@@ -190,14 +190,12 @@ body {
 }
 
 .select__item {
-    padding: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 10px 15px;
     cursor: pointer;
-    font-family: 'Inter';
+    font-family: 'Inter', serif;
     font-style: normal;
     text-align: center;
-    border-radius: 20.5px;
+    border-radius: 21px;
     background: #ffffff;
 }
 

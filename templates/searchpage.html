@@ -22,11 +22,11 @@
 
     <div class=rows>
         <!-- filter -->
-        <div class="filter">
+        <div class="filter" id="filter">
             <div class="cuisine" id="filter1">
                 <h3>Cuisine
                     <button type="submit" name="submit_button" value="apply">Apply</button>
-                    <button type="button" id="resetBtn">Reset</button>
+                    <button type="button" id="resetBtn" style="margin-left: 5px">Reset</button>
                 </h3>
                 <br>
                 <input type="checkbox" name="cuisine" value="American"/> American<br>
@@ -71,7 +71,7 @@
         </div>
 
         <!--    results    -->
-        <div class="result_right">
+        <div class="result_left">
             <ul>
                 {% for data in result_right %}
                     <li><a href="{{ data }}">
@@ -83,7 +83,7 @@
                 <button type="submit" name="submit_button" value="next_page">Next Page</button>
             {% endif %}
         </div>
-        <div class="result_left">
+        <div class="result_right">
             <ul>
                 {% for data in result_left %}
                     <li><a href="{{ data }}">{{ data }}</a></li>

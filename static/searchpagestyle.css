@@ -146,7 +146,6 @@ li {
     display: flex;
 }
 
-
 .result_left {
     margin-top: 70px;
     min-height: calc(100% - 120px);
@@ -159,8 +158,10 @@ li {
     flex: 40%;
     font-size: 18px;
 }
-.result_right button{
+.result_left button{
     margin-top: 30px;
+    width:80px;
+    height:25px;
 }
 .result_right ul li a {
     color:black;
@@ -174,9 +175,6 @@ li {
 .result_left ul li a:hover {
     color: #ff8500;
 }
-
-
-
 
 .footer {
     padding-right: 30px;
@@ -203,6 +201,9 @@ li {
 .footer .backhome a:hover {
     color: #ff8500;
 }
+
+
+
 
 
 

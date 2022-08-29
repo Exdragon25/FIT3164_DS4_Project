@@ -151,7 +151,6 @@ li {
     margin-top: 70px;
     min-height: calc(100% - 120px);
     flex: 40%;
-    font-size: 18px;
 }
 .result_right {
     margin-top: 70px;
@@ -166,7 +165,7 @@ li {
 }
 .result_left ul li a {
     color:black;
-    font-size: 18px;
+    font-size: 20px;
 }
 .result_right ul li a:hover {
     color: #ff8500;
@@ -174,8 +173,6 @@ li {
 .result_left ul li a:hover {
     color: #ff8500;
 }
-
-
 
 
 
@@ -208,3 +205,4 @@ li {
 .footer .backhome a:hover {
     color: #ff8500;
 }
+

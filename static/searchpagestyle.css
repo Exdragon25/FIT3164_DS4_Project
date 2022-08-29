@@ -32,76 +32,84 @@ li {
 .nav {
     height: 70px;
     background-color: #fc911fdc;
+    display: flex;
+    justify-content: space-between;
 }
 
 .nav .title {
-    float: left;
     line-height: 70px;
-    margin: 0 40px;
     font-size: 27px;
     font-family: 'Inter', serif;
     font-weight: 700;
+    display: inline-block;
+    min-width: 280px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 .nav .title a {
     color:black;
 }
 
 .nav .searchbox {
-    float: left;
     height: 35px;
-    width: 800px;
+    min-width: 200px;
     margin: 18px 0;
     background-color: #fff;
+    flex: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .nav .searchbox input {
-    float: left;
     height: 35px;
-    width: 745px;
+    min-width: 145px;
     border: none;
     padding-left: 15px;
     color: #726d66dc;
     font-size: 17px;
+    flex: max-content;
+    display: inline-block;
 }
 
 .searchbox button {
-    float: right;
     width: 40px;
     height: 35px;
     border: 0;
     background: url('/static/searchicon.png');
     background-size: cover;
+    display: inline-block;
 }
 
 .nav .user {
-    float: left;
-    margin-left: 180px;
+    margin-left: 5%;
     line-height: 70px;
     font-size: 20px;
     font-family: 'Inter', serif;
     font-weight: 700;
+    display: inline-block;
 }
 
 .nav .logout {
-    float: right;
+    margin-left: 20px;
     margin-right: 30px;
     line-height: 70px;
     font-size: 20px;
     font-family: 'Inter', serif;
     font-weight: 700;
+    display: inline-block;
 }
 
 .filter {
-    height: 1000px;
-    width: 20%;
+    min-height: 1075px;
     border: 2px solid black;
     border-radius: 10px;
-    float: left;
     margin: 40px 40px calc(100% - 1120px);
+    flex: 20%
 }
 
 .filter .cuisine {
-    height: 285px;
+    min-height: 285px;
     border-bottom: 2px solid black;
     padding-left: 20px;
     padding-top: 20px;
@@ -110,16 +118,15 @@ li {
 }
 
 .filter .taste {
-    height: 185px;
+    min-height: 185px;
     border-bottom: 2px solid black;
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
     font-size: 20px;
-    position: relative;
 }
 .filter .course {
-    height: 605px;
+    min-height: 605px;
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -134,18 +141,20 @@ li {
     width:50px;
     height:25px;
 }
+.rows{
+    width: 100%;
+    display: flex;
+}
 
 .result_left {
-    width: 40%;
-    margin: 70px 70px;
+    margin-top: 70px;
     min-height: calc(100% - 120px);
-    color:black;
+    flex: 40%;
 }
 .result_right {
-    margin: 70px 70px;
-    width: 40%;
+    margin-top: 70px;
     min-height: calc(100% - 120px);
-    float: right;
+    flex: 40%;
 }
 .result_right button{
     margin-top: 30px;

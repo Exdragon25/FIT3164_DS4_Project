@@ -172,16 +172,16 @@ def render_result(ingredient, cuisine, taste, course):
             ingredient = [ingredient]
             # similar code to above
         if len(cuisine) == 0 and len(course) == 0:
-            add_result = dish_coll.find({'NER': {"$in": ingredient}})
+            add_result = dish_coll.find({'NER': {"in": ingredient}})
         elif len(cuisine) == 0 and len(course) != 0:
-            add_result = dish_coll.find({'NER': {"$in": ingredient},
-                                         "course": {'$in': course}})
+            add_result = dish_coll.find({'NER': {"in": ingredient},
+                                         "course": {'in': course}})
         elif len(cuisine) != 0 and len(course) == 0:
-            add_result = dish_coll.find({'NER': {"$in": ingredient},
-                                         "cuisine": {"$in": cuisine}})
+            add_result = dish_coll.find({'NER': {"in": ingredient},
+                                         "cuisine": {"in": cuisine}})
         else:
-            add_result = dish_coll.find({'NER': {"$in": ingredient}, "cuisine": {"$in": cuisine},
-                                         "course": {'$in': course}})
+            add_result = dish_coll.find({'NER': {"in": ingredient}, "cuisine": {"in": cuisine},
+                                         "course": {'in': course}})
 
     output_coll = []
     # we lastly filter the result with taste chosen
@@ -219,9 +219,9 @@ def render_result(ingredient, cuisine, taste, course):
             # do not add in duplicate
             if add and doc['name'] not in output_coll:
                 output_coll.append(doc["name"])
-    return output_coll
+    return len(output_coll)
 
-print(render_result("Green Beans Vinaigrette", ["American"], [], ["Salads"]))
+print(render_result("", ["American"], [], ["Salads"]))
 
 client = MongoClient()
 db = client.fit3164

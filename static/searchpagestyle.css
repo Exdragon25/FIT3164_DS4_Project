@@ -151,11 +151,13 @@ li {
     margin-top: 70px;
     min-height: calc(100% - 120px);
     flex: 40%;
+    font-size: 18px;
 }
 .result_right {
     margin-top: 70px;
     min-height: calc(100% - 120px);
     flex: 40%;
+    font-size: 18px;
 }
 .result_right button{
     margin-top: 30px;
@@ -165,7 +167,6 @@ li {
 }
 .result_left ul li a {
     color:black;
-    font-size: 20px;
 }
 .result_right ul li a:hover {
     color: #ff8500;
@@ -180,29 +181,4 @@ li {
 
 
 
-.footer {
-    padding-right: 30px;
-    height: 50px;
-    background-color: #252423d0;
-    color: #FFFFFF;
-    font-size: 16px;
-    text-align: right;
-    line-height: 50px;
-    clear: both;
-    margin-bottom: 0;
-}
-.footer .copyright {
-    float: right;
-    margin-right: 30px;
-}
-.footer .backhome {
-    float: left;
-    margin-left: 30px;
-}
-.footer .backhome a {
-    color: #FFFFFF;
-}
-.footer .backhome a:hover {
-    color: #ff8500;
-}
 

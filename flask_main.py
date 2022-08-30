@@ -36,19 +36,13 @@ def get_cookie():
 
 @app.route("/", methods=['GET', 'POST'])
 def passingfunc():
-    uname = session.get('uname')
-    print('this is '+uname)
-    if not uname:
-        logged_in = False
-    else:
-        logged_in = True
     if request.method == 'POST':
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
-    return render_template('homepage.html', logged_in=logged_in)
+    return render_template('homepage.html')
 
 
 # @app.route("/home1", methods=['GET', 'POST'])
@@ -64,13 +58,6 @@ def passingfunc():
 
 @app.route('/<int:page_number>/search', methods=['GET', 'POST'])
 def search(page_number):
-    uname = session.get('uname')
-    print('this is '+uname)
-    if not uname:
-        logged_in = False
-    else:
-        logged_in = True
-
     if request.method == 'POST' and request.form['submit_button'] == 'next_page':
         next_page_number = page_number + 1
         full_path = request.full_path.split("/")
@@ -105,7 +92,7 @@ def search(page_number):
     result_right = result[:mid_index]
     result_left = result[mid_index:]
     print(next_page)
-    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, logged_in=logged_in)
+    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -468,9 +455,17 @@ def render_result(ingredient, cuisine, taste, course):
     return output_coll
 
 
-# @app.route("/home1")
-# def home1():
-#     return render_template('homepage1.html')
+@app.route("/logout")
+def logout():
+    name = session.pop('uname')
+    js = """
+    <script>
+        setTimeout(function(){
+            window.open('/',target='_self');
+        },2000)
+    </script>
+    """
+    return name + ' successfully log out. Back to homepage in 2 seconds...' + js
 
 
 def update_database():
@@ -479,3 +474,5 @@ def update_database():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+

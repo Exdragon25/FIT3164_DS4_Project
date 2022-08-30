@@ -16,9 +16,9 @@
             <input type="text" id="search" name="search" placeholder="Dishes name or ingredients here (optional)">
             <button type="submit" name="submit_button" value="search"></button>
         </div>
-        {% if logged_in %}
+        {% if session.get('uname') %}
             <div class="user">{{ session['uname'] }}</div>
-            <div class="logout"><a href="#">Logout</a></div>
+            <div class="logout"><a href="{{url_for('logout')}}">Logout</a></div>
         {% else %}
             <div class="login"><a href="{{url_for('login')}}">Login</a></div>
         {% endif %}

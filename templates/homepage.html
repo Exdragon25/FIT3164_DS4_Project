@@ -15,7 +15,12 @@
     <div class="nav">
         <ul>
             <li><a href="#" onclick="alert('student123@monash.edu.au')">Contact Us</a></li>
-            <li><a href="{{url_for('login')}}">Login/Register</a></li>
+            {% if logged_in %}
+                <li><a href="#">Logout</a></li>
+                <li>{{ session['uname'] }}</li>
+            {% else %}
+                <li><a href="{{url_for('login')}}">Login/Register</a></li>
+            {% endif %}
         </ul>
     </div>
 

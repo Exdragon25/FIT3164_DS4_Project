@@ -20,7 +20,6 @@ app = Flask(__name__)
 app.config.from_object(config)  # 导入config
 app.config['SECRET_KEY'] = 'EJFHhiufwh893hf'
 
-
 @app.route("/about/result")
 def about_result():
     context = {"username": "ahajhdhisfsi"}
@@ -37,28 +36,41 @@ def get_cookie():
 
 @app.route("/", methods=['GET', 'POST'])
 def passingfunc():
+    uname = session.get('uname')
+    print('this is '+uname)
+    if not uname:
+        logged_in = False
+    else:
+        logged_in = True
     if request.method == 'POST':
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
-    return render_template('homepage.html')
+    return render_template('homepage.html', logged_in=logged_in)
 
 
-@app.route("/home1", methods=['GET', 'POST'])
-def passingfunc1():
-    if request.method == 'POST':
-        output = {'search': request.form.get('search'),
-                  'cuisine': request.form.getlist('cuisine'),
-                  'taste': request.form.getlist('taste'),
-                  'course': request.form.getlist('course')}
-        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
-    return render_template('homepage1.html')
+# @app.route("/home1", methods=['GET', 'POST'])
+# def passingfunc1():
+#     if request.method == 'POST':
+#         output = {'search': request.form.get('search'),
+#                   'cuisine': request.form.getlist('cuisine'),
+#                   'taste': request.form.getlist('taste'),
+#                   'course': request.form.getlist('course')}
+#         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+#     return render_template('homepage1.html')
 
 
 @app.route('/<int:page_number>/search', methods=['GET', 'POST'])
 def search(page_number):
+    uname = session.get('uname')
+    print('this is '+uname)
+    if not uname:
+        logged_in = False
+    else:
+        logged_in = True
+
     if request.method == 'POST' and request.form['submit_button'] == 'next_page':
         next_page_number = page_number + 1
         full_path = request.full_path.split("/")
@@ -93,7 +105,7 @@ def search(page_number):
     result_right = result[:mid_index]
     result_left = result[mid_index:]
     print(next_page)
-    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page)
+    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, logged_in=logged_in)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -106,8 +118,8 @@ def login():
             user=request.form.get('uname')
             print(user_info)
             session['uname'] = request.form.get('uname')
-            resp=make_response(redirect('home1'))
-            resp.set_cookie('User',user,max_age=36000)
+            resp=make_response(redirect('/'))
+            resp.set_cookie('User', user, max_age=36000)
             return resp
         else:
             return result
@@ -456,9 +468,9 @@ def render_result(ingredient, cuisine, taste, course):
     return output_coll
 
 
-@app.route("/home1")
-def home1():
-    return render_template('homepage1.html')
+# @app.route("/home1")
+# def home1():
+#     return render_template('homepage1.html')
 
 
 def update_database():

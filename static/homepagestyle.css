@@ -31,8 +31,19 @@ li {
     float: right;
 }
 
+.nav ul li {
+    padding: 0 15px;
+    color: #FFFFFF;
+    height: 40px;
+    font-family: 'Inter', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 40px;
+}
+
 .nav ul li a {
-    padding: 0 20px;
+    padding: 0 15px;
     color: #FFFFFF;
     height: 40px;
     font-family: 'Inter', serif;

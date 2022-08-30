@@ -1,7 +1,7 @@
 from pprint import pprint
 import pymongo
 import numpy as np
-from flask import Flask, jsonify, url_for, render_template, request, redirect,make_response
+from flask import Flask, jsonify, url_for, render_template, request, redirect,make_response,session
 import config
 import json, time, datetime
 # import pysolr
@@ -18,6 +18,8 @@ from nltk import WordNetLemmatizer
 
 app = Flask(__name__)
 app.config.from_object(config)  # 导入config
+app.config['SECRET_KEY'] = 'EJFHhiufwh893hf'
+
 
 @app.route("/about/result")
 def about_result():
@@ -42,6 +44,17 @@ def passingfunc():
                   'course': request.form.getlist('course')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     return render_template('homepage.html')
+
+
+@app.route("/home1", methods=['GET', 'POST'])
+def passingfunc1():
+    if request.method == 'POST':
+        output = {'search': request.form.get('search'),
+                  'cuisine': request.form.getlist('cuisine'),
+                  'taste': request.form.getlist('taste'),
+                  'course': request.form.getlist('course')}
+        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+    return render_template('homepage1.html')
 
 
 @app.route('/<int:page_number>/search', methods=['GET', 'POST'])
@@ -92,7 +105,8 @@ def login():
         if result == "login successfully":
             user=request.form.get('uname')
             print(user_info)
-            resp=make_response(redirect('/'))
+            session['uname'] = request.form.get('uname')
+            resp=make_response(redirect('home1'))
             resp.set_cookie('User',user,max_age=36000)
             return resp
         else:
@@ -442,7 +456,9 @@ def render_result(ingredient, cuisine, taste, course):
     return output_coll
 
 
-# @app.route("")
+@app.route("/home1")
+def home1():
+    return render_template('homepage1.html')
 
 
 def update_database():

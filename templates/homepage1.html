@@ -7,28 +7,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dish Recommendation</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = '/homepagestyle.css') }}">
+    <style>
+        .nav ul li {
+            padding: 0 20px;
+            color: #FFFFFF;
+            height: 40px;
+            font-family: 'Inter', serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 17px;
+            line-height: 40px;
+        }
+    </style>
 </head>
 
 <body>
-
+    <form action="/home1" method="POST">
     <!-- nav -->
     <div class="nav">
         <ul>
-            <form action="/homepage2" method="post" >
             <li><a href="#" onclick="alert('student123@monash.edu.au')">Contact Us</a></li>
-            <input type="submit" name="logout" formmethod="post">
-            </form>
+            <li><a href="#">Logout</a></li>
+            <li>{{ session['uname'] }}</li>
         </ul>
     </div>
 
     <!-- title and searching part -->
     <div class="box">
-        <form action="" >
-        <form action="/about" method="post" >
         <div class="title">Search Recipes</div>
         <div class="search">
-            <input type="text" placeholder="Dishes name or ingredients here (optional)">
-            <input type="submit" name="Search" formmethod="post">
+            <input type="text" name="search" placeholder="Dishes name or ingredients here (optional)">
+            <button type="submit">Search</button>
         </div>
 
         <!-- cuisine filter -->
@@ -40,8 +49,8 @@
                         <option value="American">American</option>
                         <option value="Chinese">Chinese</option>
                         <option value="French">French</option>
-                        <option value="Indian">Indian</option>
-                        <option value="Japanese">Japanese</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Mexican">Mexican</option>
                     </select>
                 </li>
             </ul>
@@ -57,7 +66,7 @@
                         <option value="salty">Salty</option>
                         <option value="sweet">Sweet</option>
                         <option value="sour">Sour</option>
-                        <option value="spicy">Spicy</option>
+                        <option value="piquant">Piquant</option>
                         <option value="bitter">Bitter</option>
                     </select>
                 </li>
@@ -70,10 +79,11 @@
                 <li class="f3">Course</li>
                 <li>
                     <select name="course" class="custom-select" multiple>
-                        <option value="main_dish">Main Dish</option>
-                        <option value="side_dish">Side Dish</option>
-                        <option value="salad">Salad</option>
-                        <option value="soup">Soup</option>
+                        <option value="Main Dishes">Main Dishes</option>
+                        <option value="Side Dishes">Side Dishes</option>
+                        <option value="Appetizers">Appetizers</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Desserts">Desserts</option>
                     </select>
                 </li>
             </ul>
@@ -103,7 +113,6 @@
                 </li>
             </ul>
         </div>
-        </form>
     </div>
 
     <!-- footer -->
@@ -111,7 +120,10 @@
         <div class="copyright">Copyright @ 2022 FIT3164 Data Science Group4</div>
     </div>
     <script src="{{ url_for('static', filename = '/homepage.js') }}"></script>
+    </form>>
+
 </body>
 
 </html>
+
 

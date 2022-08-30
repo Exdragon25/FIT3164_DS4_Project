@@ -16,8 +16,8 @@
             <input type="text" id="search" name="search" placeholder="Dishes name or ingredients here (optional)">
             <button type="submit" name="submit_button" value="search"></button>
         </div>
-        <div class="user">username</div>
-        <div class="logout">logout</div>
+        <div class="user">{{ session['uname'] }}</div>
+        <div class="logout"><a href="#">Logout</a></div>
     </div>
 
     <div class=rows>

@@ -162,16 +162,32 @@ body {
     height: 400px;
 }
 
-.dailyrecom .dailyrecipe ul li {
-    float: left;
+/*.dailyrecom .dailyrecipe ul li {*/
+/*    float: left;*/
+/*    height: 400px;*/
+/*    width: 300px;*/
+/*    background-color: steelblue;*/
+/*    margin-right: 20px;*/
+/*    margin-bottom: 10px;*/
+
+/*}*/
+.dailyrecom .dailyrecipe ul img{
+    display: flex;
+    justify-content: space-between;
     height: 400px;
-    width: 300px;
-    background-color: steelblue;
-    margin-right: 20px;
-    margin-bottom: 10px;
+    width: 100%;
+}
+
+.dailyrecom .dailyrecipe ul {
+    display: flex;
+    justify-content: space-between;
+    height: 400px;
 
 }
 
+.dailyrecom .dailyrecipe ul li {
+    padding: 10px 10px 10px 10px;
+}
 .dailyrecom .dailyrecipe .dailylast {
     margin-right: 0;
 }

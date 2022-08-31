@@ -29,7 +29,7 @@ def aggregate_vectors(history):
 
 
 # find similar recipes by a vector
-def find_similar_recipes(target_embedding, n=10):
+def find_similar_recipes(target_embedding, n=30):
     global df
     from scipy.spatial import distance
     df["sim_value"] = df["word2vec"].map(lambda x: 1 - distance.cosine(target_embedding, x))

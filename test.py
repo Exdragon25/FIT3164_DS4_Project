@@ -226,10 +226,6 @@ def render_result(ingredient, cuisine, taste, course):
 client = MongoClient()
 db = client.fit3164
 dish_coll = db.Dish_collection
-cursor = db.mycoll.aggregate([{ "$sample": { 'size': 1 } }])
+cursor = dish_coll.aggregate([{ "$sample": { "size": 4 } }])
 for i in cursor:
     print(i)
-
-import secrets
-session = secrets.token_urlsafe(16)
-print(session)

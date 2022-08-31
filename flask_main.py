@@ -15,6 +15,8 @@ import re
 import unidecode
 from nltk import WordNetLemmatizer
 import secrets
+import most_similar_dish as ml
+import random
 
 
 
@@ -40,6 +42,21 @@ def get_cookie():
 @app.route("/", methods=['GET', 'POST'])
 def passingfunc():
     current_user = get_current_user()
+    user_his = get_current_user_his()
+    dly_recom_recipe = []
+    if user_his is None or len(user_his) == 0:
+        client = MongoClient()
+        db = client.fit3164
+        dish_coll = db.Dish_collection
+        cursor = dish_coll.aggregate([{"$sample": {"size": 4}}])
+        for doc in cursor:
+            dly_recom_recipe.append(doc['name'])
+    else:
+        ml_recom = ml.find_similar_recipes(ml.aggregate_vectors(user_his))
+        dly_recom_recipe = random.sample(ml_recom, 4)
+
+
+
     # if request.cookies.get("User") == None:
     if request.method == 'POST':
         output = {'search': request.form.get('search'),
@@ -47,7 +64,7 @@ def passingfunc():
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
-    return render_template('homepage.html', current_user=current_user)
+    return render_template('homepage.html', current_user=current_user, dly_recom_recipe=dly_recom_recipe)
 
 
 # @app.route("/home1", methods=['GET', 'POST'])
@@ -129,7 +146,22 @@ def get_current_user():
         for doc in search_result:
             cur_user.append(doc)
         return cur_user[0]["username"]
+    else:
+        return None
 
+def get_current_user_his():
+    session_id = request.cookies.get('session_id')
+    if session_id is not None:
+        client = MongoClient()
+        db = client.fit3164
+        usr_coll = db.user_collection
+        search_result = usr_coll.find({'session_id': session_id})
+        cur_user_his = []
+        for doc in search_result:
+            cur_user_his.append(doc)
+        return cur_user_his[0]["user_history"]
+    else:
+        return None
 
 
 def login_register(call_mode: str, user_detail_dict: dict):

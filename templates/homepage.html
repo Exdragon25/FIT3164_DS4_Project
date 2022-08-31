@@ -87,22 +87,12 @@
         <div class="dailytitle">Daily Recommendation for all users</div>
         <div class="dailyrecipe">
             <ul>
-                <li>
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
-                </li>
-                <li>
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
-                </li>
-                <li>
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
-                </li>
-                <li class="dailylast">
-                    <img src="#" alt="none">
-                    <p><a href="#">recipe link</a></p>
-                </li>
+                {% for i in dly_recom_recipe %}
+                    <li>
+                        <a href="{{i}}"><img src= "{{ url_for('static', filename = '/Indonesian_Food.png') }}" alt="{{ i }}"></a>
+                        <p><a href="{{i}}">{{ i }}</a></p>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>

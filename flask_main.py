@@ -14,6 +14,8 @@ import ast
 import re
 import unidecode
 from nltk import WordNetLemmatizer
+import secrets
+
 
 
 app = Flask(__name__)
@@ -29,20 +31,23 @@ def about_result():
 
 @app.route('/get_cookie')
 def get_cookie():
-    c=request.cookies.get("User")
+    # c=request.cookies.get("User")
+    c=request.cookies.get("session_id")
     print(type(c))
     return c
 
 
 @app.route("/", methods=['GET', 'POST'])
 def passingfunc():
+    current_user = get_current_user()
+    # if request.cookies.get("User") == None:
     if request.method == 'POST':
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
-    return render_template('homepage.html')
+    return render_template('homepage.html', current_user=current_user)
 
 
 # @app.route("/home1", methods=['GET', 'POST'])
@@ -58,6 +63,7 @@ def passingfunc():
 
 @app.route('/<int:page_number>/search', methods=['GET', 'POST'])
 def search(page_number):
+    current_user = get_current_user()
     if request.method == 'POST' and request.form['submit_button'] == 'next_page':
         next_page_number = page_number + 1
         full_path = request.full_path.split("/")
@@ -91,8 +97,7 @@ def search(page_number):
     mid_index = len(result)//2
     result_right = result[:mid_index]
     result_left = result[mid_index:]
-    print(next_page)
-    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page)
+    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, current_user=current_user)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -101,16 +106,30 @@ def login():
         user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
         # return "successful"
         result = login_register("login", user_info) # string
-        if result == "login successfully":
+        if len(result) == 22: #length of session id is 22
             user=request.form.get('uname')
             print(user_info)
             session['uname'] = request.form.get('uname')
             resp=make_response(redirect('/'))
-            resp.set_cookie('User', user, max_age=36000)
+            # resp.set_cookie('User', user, max_age=36000)
+            resp.set_cookie('session_id', result, max_age=36000)
             return resp
         else:
             return result
     return render_template("login.html")
+
+def get_current_user():
+    session_id = request.cookies.get('session_id')
+    if session_id is not None:
+        client = MongoClient()
+        db = client.fit3164
+        usr_coll = db.user_collection
+        search_result = usr_coll.find({'session_id': session_id})
+        cur_user = []
+        for doc in search_result:
+            cur_user.append(doc)
+        return cur_user[0]["username"]
+
 
 
 def login_register(call_mode: str, user_detail_dict: dict):
@@ -148,7 +167,7 @@ def login_register(call_mode: str, user_detail_dict: dict):
         if len(co) == 1:  # if someone have same username, check the password:
             user_doc = co[0]  # pick the user info from cursor
             if user_doc["password"] == password:
-                return "login successfully"
+                return user_doc["session_id"]
             else:  # if password is wrong.
                 return render_template("login.html", msg="The password may be wrong, please try again.")
         else:  # if no this user
@@ -164,9 +183,12 @@ def login_register(call_mode: str, user_detail_dict: dict):
         if len(co) != 0:  # if someone have same username
             return render_template("register.html", msg="This username has already been registered.")
         else:  # if this username is valid.
-            temp = {"username": username, "password": password, "user_history": []}
+            session_id = secrets.token_urlsafe(16)
+            temp = {"session_id": session_id, "username": username, "password": password, "user_history": []}
             usr_coll.insert_one(temp)
-            return "success"
+            resp=make_response(redirect('/'))
+            resp.set_cookie('session_id', session_id, max_age=36000)
+            return resp
 
     elif call_mode == "view_history":
         user_history = user_detail_dict["user_history"]  # list with only 1 record
@@ -457,15 +479,20 @@ def render_result(ingredient, cuisine, taste, course):
 
 @app.route("/logout")
 def logout():
-    name = session.pop('uname')
-    js = """
-    <script>
-        setTimeout(function(){
-            window.open('/',target='_self');
-        },2000)
-    </script>
-    """
-    return name + ' successfully log out. Back to homepage in 2 seconds...' + js
+    resp = make_response(redirect("/"))
+    resp.set_cookie('session_id', '', expires=0)
+    # resp.delete_cookie('session_id', path='/', domain='dev.localhost')
+    return resp
+
+    # name = session.pop('uname')
+    # js = """
+    # <script>
+    #     setTimeout(function(){
+    #         window.open('/',target='_self');
+    #     },2000)
+    # </script>
+    # """
+    # return ' successfully log out. Back to homepage in 2 seconds...' + js
 
 
 def update_database():

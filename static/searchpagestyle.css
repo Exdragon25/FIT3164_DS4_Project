@@ -64,11 +64,11 @@ li {
 .nav .searchbox input {
     height: 35px;
     min-width: 145px;
+    flex: 80%;
     border: none;
     padding-left: 15px;
     color: #726d66dc;
     font-size: 17px;
-    flex: max-content;
     display: inline-block;
 }
 

@@ -55,9 +55,6 @@ def passingfunc():
         ml_recom = ml.find_similar_recipes(ml.aggregate_vectors(user_his))
         dly_recom_recipe = random.sample(ml_recom, 4)
 
-
-
-    # if request.cookies.get("User") == None:
     if request.method == 'POST':
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
@@ -66,16 +63,6 @@ def passingfunc():
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     return render_template('homepage.html', current_user=current_user, dly_recom_recipe=dly_recom_recipe)
 
-
-# @app.route("/home1", methods=['GET', 'POST'])
-# def passingfunc1():
-#     if request.method == 'POST':
-#         output = {'search': request.form.get('search'),
-#                   'cuisine': request.form.getlist('cuisine'),
-#                   'taste': request.form.getlist('taste'),
-#                   'course': request.form.getlist('course')}
-#         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
-#     return render_template('homepage1.html')
 
 
 @app.route('/<int:page_number>/search', methods=['GET', 'POST'])
@@ -133,7 +120,7 @@ def login():
             return resp
         else:
             return result
-    return render_template("login.html")
+    return render_template("homepage.html")
 
 def get_current_user():
     session_id = request.cookies.get('session_id')

@@ -3,6 +3,13 @@
     padding: 0;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
 a {
     text-decoration: none;
 }
@@ -35,7 +42,7 @@ li {
     padding: 0 15px;
     color: #FFFFFF;
     height: 40px;
-    font-family: 'Inter', serif;
+    font-family: 'Acme', serif;
     font-style: normal;
     font-weight: 400;
     font-size: 17px;
@@ -46,7 +53,7 @@ li {
     padding: 0 15px;
     color: #FFFFFF;
     height: 40px;
-    font-family: 'Inter', serif;
+    font-family: 'Acme', serif;
     font-style: normal;
     font-weight: 400;
     font-size: 17px;
@@ -74,7 +81,7 @@ body {
 
 .box .title {
     color: #FFFFFF;
-    font-family: 'Inter', serif;
+    font-family: 'Pacifico', serif;
     font-style: normal;
     font-weight: 400;
     font-size: 60px;
@@ -85,22 +92,33 @@ body {
     width: 680px;
     height: 40px;
     margin: 30px auto;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
 }
 
 .box .search input {
-    float: left;
-    width: 515px;
-    height: 40px;
+    text-align: center;
     padding-left: 15px;
-    color: #726d66dc;
     font-size: 17px;
-    background-color: rgba(255, 255, 255, 0.7);
+    font-family: 'Acme', serif;
+    background-color: transparent;
+    border-radius: 20px;
+    flex: 80%;
+    border:none;
+    display: inline-block;
 }
 
 .box .search button {
-    width: 146px;
-    height: 44px;
-    font-size: 17px;
+    border: 0;
+    margin-top: 3px;
+    margin-right: 10px;
+    background: url('/static/searchicon.png');
+    display: inline-block;
+    opacity: 30%;
+    background-size: cover;
+    width: 35px;
+    height: 35px;
 }
 
 .box .filters ul li {
@@ -108,6 +126,7 @@ body {
     margin-bottom: 30px;
     margin-right: 30px;
     text-align: center;
+    font-family: 'Acme', serif;
 
 }
 
@@ -217,9 +236,9 @@ body {
 }
 
 .select__item {
-    padding: 10px 15px;
+    padding: 5px 10px;
     cursor: pointer;
-    font-family: 'Inter', serif;
+    font-family: 'acme', serif;
     font-style: normal;
     text-align: center;
     border-radius: 21px;

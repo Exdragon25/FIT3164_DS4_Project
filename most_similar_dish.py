@@ -34,8 +34,8 @@ def find_similar_recipes(target_embedding, n=30):
     from scipy.spatial import distance
     df["sim_value"] = df["word2vec"].map(lambda x: 1 - distance.cosine(target_embedding, x))
     df = df.sort_values(by="sim_value", ascending=False)
-    print(df[["name", "NER"]].head(n))
+    return df[30]
 
 
-print(find_similar_recipes(aggregate_vectors(userHistory["recipe_viewed"])))
+
 

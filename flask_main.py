@@ -120,7 +120,7 @@ def login():
             return resp
         else:
             return result
-    return render_template("homepage.html")
+    return render_template("login.html")
 
 def get_current_user():
     session_id = request.cookies.get('session_id')

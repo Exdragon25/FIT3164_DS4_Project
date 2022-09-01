@@ -10,6 +10,18 @@
           margin: 0;
           padding: 0;
       }
+      body{
+          background-image: url('/static/login_background.jpeg');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center top;
+          background-attachment: fixed;
+      }
+      .login{
+          background-color: #FFFFFF;
+          width: 200px;
+          margin: auto;
+      }
       h2 {
         color: #ff8500;
         text-align: center;
@@ -34,7 +46,8 @@
 </head>
 <body>
     <form action="/login" method="POST">
-    <h2>Login</h2>
+        <div class="login">
+        <h2>Login</h2>
         <div class="Username">
           <label for="uname"><b>Username</b></label>
           <input type="text" placeholder="Enter Username" name="uname" required>
@@ -52,6 +65,7 @@
         </div><br>
 
         <div style="text-align: center;color:red;">{{msg}}</div>
+        </div>
       </form>
 </body>
 </html>

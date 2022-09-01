@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dish Recommendation</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Acme|Itim">
     <link rel="stylesheet" href="{{ url_for('static', filename = '/searchpagestyle.css') }}">
+
 </head>
 <body>
 <form method="POST">
@@ -77,22 +79,22 @@
         <!--    results    -->
         <div class="result_left">
             <ul>
-                {% for data in result_right %}
+                {% for data in result_left %}
                     <li><a href="{{ data }}">
                         {{ data }}
                     </a></li>
                 {% endfor %}
             </ul>
-            {% if next_page == True %}
-                <button type="submit" name="submit_button" value="next_page">Next Page</button>
-            {% endif %}
         </div>
         <div class="result_right">
             <ul>
-                {% for data in result_left %}
+                {% for data in result_right %}
                     <li><a href="{{ data }}">{{ data }}</a></li>
                 {% endfor %}
             </ul>
+            {% if next_page == True %}
+                <button type="submit" name="submit_button" value="next_page">Next Page</button>
+            {% endif %}
         </div>
     </div>
 

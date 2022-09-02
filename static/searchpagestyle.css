@@ -106,13 +106,13 @@ H3{
     display: inline-block;
 }
 .nav .logout a {
-    color: black;
+    color:rgba(0, 0, 0, 0.85);
 }
 .nav .logout a:hover {
     color: #ff8500;
 }
 .nav .logout {
-    color: black;
+    color:rgba(0, 0, 0, 0.85);
     margin-left: 50px;
     margin-right: 30px;
     line-height: 80px;
@@ -123,7 +123,7 @@ H3{
 }
 
 .nav .login {
-    color: black;
+    color:rgba(0, 0, 0, 0.85);
     margin-left: 50px;
     margin-right: 30px;
     line-height: 80px;
@@ -133,7 +133,7 @@ H3{
     display: inline-block;
 }
 .nav .login a {
-    color: black;
+    color:rgba(0, 0, 0, 0.85);
 }
 .nav .login a:hover {
     color: #ff8500;
@@ -157,7 +157,7 @@ H3{
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 25px;
 }
 
@@ -167,14 +167,14 @@ H3{
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
-    font-size: 16px;
+    font-size: 18px;
 }
 .filter .course {
     min-height: 605px;
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
-    font-size: 16px;
+    font-size: 18px;
 }
 .filter input {
     width: 20px;
@@ -260,8 +260,6 @@ H3{
 .footer .backhome a:hover {
     color: #ff8500;
 }
-
-
 
 
 

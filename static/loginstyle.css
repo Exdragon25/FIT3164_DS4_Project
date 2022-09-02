@@ -8,15 +8,16 @@
 body{
   margin: 0;
   padding: 0;
-  background-image: url('/static/login_background.jpg');
+  background-image: url('/static/login_bg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   height: 100vh;
   overflow: hidden;
 }
 .center{
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 400px;

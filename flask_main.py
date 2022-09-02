@@ -24,12 +24,6 @@ app = Flask(__name__)
 app.config.from_object(config)  # 导入config
 app.config['SECRET_KEY'] = 'EJFHhiufwh893hf'
 
-@app.route("/about/result")
-def about_result():
-    context = {"username": "ahajhdhisfsi"}
-
-    return render_template("search_result.html")
-
 
 @app.route('/get_cookie')
 def get_cookie():
@@ -73,6 +67,11 @@ def search(page_number):
         full_path = request.full_path.split("/")
         print(str(next_page_number), page_number)
         return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
+    elif request.method == 'POST' and request.form['submit_button'] == 'previous_page':
+        next_page_number = page_number - 1
+        full_path = request.full_path.split("/")
+        print(str(next_page_number), page_number)
+        return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
 
     if request.method == 'POST' and (request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
         output = {'search': request.form.get('search'),
@@ -98,10 +97,14 @@ def search(page_number):
         result = result[(page_number-1) * 40:]
         next_page = False
 
+    previous_page = False
+    if page_number>1:
+        previous_page = True
+
     mid_index = len(result)//2
     result_right = result[:mid_index]
     result_left = result[mid_index:]
-    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, current_user=current_user)
+    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, previous_page=previous_page, current_user=current_user)
 
 
 @app.route("/login", methods=['GET', 'POST'])

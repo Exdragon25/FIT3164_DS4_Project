@@ -197,21 +197,24 @@ H3{
     flex: 40%;
     font-size: 18px;
     padding-right: 15px;
+    position: relative;
 }
 .result_right {
     margin-top: 70px;
     min-height: calc(100% - 120px);
     flex: 40%;
     padding-right: 15px;
+    position: relative;
 }
-.result_right button{
+.result_right button, .result_left button{
     margin-top: 30px;
-    /*width:100px;*/
-    /*height:35px;*/
     font-size: 15px;
     font-family: 'Itim', serif;
     padding: 10px 10px 10px 10px;
+    position: relative;
+    border-radius: 20px;
 }
+
 .result_right ul li a {
     color:rgba(0, 0, 0, 0.85);
     font-family: 'Itim', serif;

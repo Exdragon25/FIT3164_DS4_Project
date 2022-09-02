@@ -85,6 +85,10 @@
                     </a></li>
                 {% endfor %}
             </ul>
+            {% if previous_page == True %}
+                <button type="submit" name="submit_button" value="previous_page">Previous Page</button>
+            {% endif %}
+
         </div>
         <div class="result_right">
             <ul>

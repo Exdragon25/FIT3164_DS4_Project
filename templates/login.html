@@ -1,71 +1,33 @@
+{#reference: https://www.youtube.com/watch?v=eeHqZeJ9Vqc#}
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" dir="ltr">
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dish Recommendation</title>
-    <style>
-      * {
-          margin: 0;
-          padding: 0;
-      }
-      body{
-          background-image: url('/static/login_background.jpeg');
-          background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center top;
-          background-attachment: fixed;
-      }
-      .login{
-          background-color: #FFFFFF;
-          width: 200px;
-          margin: auto;
-      }
-      h2 {
-        color: #ff8500;
-        text-align: center;
-        margin: 50px auto;
-      }
-      .Username {
-        margin-bottom: 20px;
-        text-align: center;
-      }
-      .userpsw {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      .signinbutton {
-        text-align: center;
-      }
-      .signinbutton p {
-        margin-top: 20px;
-      }
-    </style>
-
-</head>
-<body>
-    <form action="/login" method="POST">
-        <div class="login">
-        <h2>Login</h2>
-        <div class="Username">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="uname" required>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/loginstyle.css') }}">
+  </head>
+  <body>
+    <div class="center">
+      <h1>Login</h1>
+      <form action="/login" method="POST">
+        <div class="txt_field">
+          <input name="uname" type="text" required>
+          <span></span>
+          <label>Username</label>
         </div>
-
-        <div class="userpsw">
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="pwd" required>
+        <div class="txt_field">
+          <input name="pwd" type="password" required>
+          <span></span>
+          <label>Password</label>
         </div>
-        
-        <div class="signinbutton">        
-          <input type="submit" value="Login">
-            <p><a href="{{url_for('register')}}">Register</a>
-            <a href="/" style="margin-left: 20px;">Home</a></p>
-        </div><br>
-
-        <div style="text-align: center;color:red;">{{msg}}</div>
+        <input type="submit" value="Login">
+        <div class="register">
+          Have not registered? <a href="{{url_for('register')}}">Register now</a>
         </div>
       </form>
-</body>
+    </div>
+
+  </body>
 </html>

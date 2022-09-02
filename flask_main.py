@@ -182,15 +182,15 @@ def login_register(call_mode: str, user_detail_dict: dict):
         co = []
         for doc in search_result:
             co.append(doc)
-
+            js = """<script> alert("Incorrect username or password, please try again.")</script>"""
         if len(co) == 1:  # if someone have same username, check the password:
             user_doc = co[0]  # pick the user info from cursor
             if user_doc["password"] == password:
                 return user_doc["session_id"]
             else:  # if password is wrong.
-                return render_template("login.html", msg="The password may be wrong, please try again.")
+                return render_template("login.html")+js
         else:  # if no this user
-            return render_template("login.html", msg="The username may be wrong, please try again.")
+            return render_template("login.html")+js
 
     elif call_mode == "register":
         search_result = usr_coll.find({"username": username})
@@ -200,7 +200,8 @@ def login_register(call_mode: str, user_detail_dict: dict):
             co.append(doc)
 
         if len(co) != 0:  # if someone have same username
-            return render_template("register.html", msg="This username has already been registered.")
+            js = """<script> alert("This username has already been registered.")</script>"""
+            return render_template("register.html")+js
         else:  # if this username is valid.
             session_id = secrets.token_urlsafe(16)
             temp = {"session_id": session_id, "username": username, "password": password, "user_history": []}
@@ -270,13 +271,6 @@ def register():
         # return "successful"
         result = login_register("register", user_info)
         return result
-
-
-        # for i in user:  # idea
-        #     if i['uname'] == uname:
-        #         return render_template("register.html", msg="username already exists, please re-entry.")
-        #     else:
-        #         return render_template("login.html", msg="Account created successfully.")  # 再写一个成功跳转原网页的function
 
     return render_template("register.html")
 
@@ -500,19 +494,7 @@ def render_result(ingredient, cuisine, taste, course):
 def logout():
     resp = make_response(redirect("/"))
     resp.set_cookie('session_id', '', expires=0)
-    # resp.delete_cookie('session_id', path='/', domain='dev.localhost')
     return resp
-
-    # name = session.pop('uname')
-    # js = """
-    # <script>
-    #     setTimeout(function(){
-    #         window.open('/',target='_self');
-    #     },2000)
-    # </script>
-    # """
-    # return ' successfully log out. Back to homepage in 2 seconds...' + js
-
 
 def update_database():
     pass

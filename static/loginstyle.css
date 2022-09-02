@@ -1,3 +1,4 @@
+/*reference: https://www.youtube.com/watch?v=eeHqZeJ9Vqc*/
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 *{
   margin: 0;
@@ -63,13 +64,13 @@ form .txt_field{
   left: 0;
   width: 0%;
   height: 2px;
-  background: #2691d9;
+  color: #fc911fdc;
   transition: .5s;
 }
 .txt_field input:focus ~ label,
 .txt_field input:valid ~ label{
   top: -5px;
-  color: #2691d9;
+  color: #fc911fdc;
 }
 .txt_field input:focus ~ span::before,
 .txt_field input:valid ~ span::before{
@@ -87,7 +88,7 @@ input[type="submit"]{
   width: 100%;
   height: 50px;
   border: 1px solid;
-  background: #2691d9;
+  background: #fc911fdc;
   border-radius: 25px;
   font-size: 18px;
   color: #e9f4fb;
@@ -95,18 +96,14 @@ input[type="submit"]{
   cursor: pointer;
   outline: none;
 }
-input[type="submit"]:hover{
-  border-color: #2691d9;
-  transition: .5s;
-}
-.signup_link{
+.register{
   margin: 30px 0;
   text-align: center;
   font-size: 16px;
   color: #666666;
 }
-.signup_link a{
-  color: #2691d9;
+.register a{
+  color: dodgerblue;
   text-decoration: none;
 }
 .signup_link a:hover{

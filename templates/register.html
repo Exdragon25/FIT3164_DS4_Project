@@ -1,53 +1,32 @@
+{#reference: https://www.youtube.com/watch?v=eeHqZeJ9Vqc#}
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" dir="ltr">
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dish Recommendation</title>
-    <style>
-      * {
-          margin: 0;
-          padding: 0;
-      }
-      h2 {
-        color: #ff8500;
-        text-align: center;
-        margin: 50px auto;
-      }
-      .Username {
-        margin-bottom: 20px;
-        text-align: center;
-      }
-      .userpsw {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      .signinbutton {
-        text-align: center;
-      }
-    </style>
-
-</head>
-<body>
-    <form action="/register" method="POST">
-    <h2>Register</h2>
-        <div class="Username">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="uname" required>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/loginstyle.css') }}">
+  </head>
+  <body>
+    <div class="center">
+      <h1>Register</h1>
+      <form action="/register" method="POST">
+        <div class="txt_field">
+          <input name="uname" type="text" required>
+          <span></span>
+          <label>Username</label>
         </div>
-
-        <div class="userpsw">
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="pwd" required>
+        <div class="txt_field">
+          <input name="pwd" type="password" required>
+          <span></span>
+          <label>Password</label>
         </div>
-
-        <div class="signinbutton">
-          <input type="submit" value="Register">
-            <p style="margin-top:20px;"><a href="/">Home</a>
-            <a href="{{url_for('login')}}" style="margin-left: 20px;">Login</a></p>
-        </div><br>
-        <div style="text-align: center;color:red;">{{msg}}</div>
+        <input type="submit" value="Register">
+          <div class="register">
+          </div>
       </form>
-</body>
+    </div>
+
+  </body>
 </html>

@@ -223,9 +223,13 @@ def render_result(ingredient, cuisine, taste, course):
 
 # print(render_result("", ["American"], [], ["Salads"]))
 
-client = MongoClient()
-db = client.fit3164
-dish_coll = db.Dish_collection
-cursor = dish_coll.aggregate([{ "$sample": { "size": 4 } }])
-for i in cursor:
-    print(i)
+# client = MongoClient()
+# db = client.fit3164
+# dish_coll = db.Dish_collection
+# cursor = dish_coll.aggregate([{ "$sample": { "size": 4 } }])
+# for i in cursor:
+#     print(i)
+
+
+
+

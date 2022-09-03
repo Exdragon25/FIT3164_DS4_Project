@@ -72,13 +72,17 @@ def search(page_number):
         full_path = request.full_path.split("/")
         print(str(next_page_number), page_number)
         return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
-
-    if request.method == 'POST' and (request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
+    elif request.method == 'POST' and (request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+    # choose page number action
+    elif request.method == 'POST' and request.form['submit_button'] is not None:
+        next_page_number = int(request.form['submit_button'])
+        full_path = request.full_path.split("/")
+        return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
 
     search = request.args.get('search')
     cuisine = request.args.getlist('cuisine')
@@ -89,6 +93,7 @@ def search(page_number):
     for i in range(len(course)):
         course[i] = course[i].replace("_", " ")
     result = render_result(search, cuisine, taste, course)
+    max_pages = len(result)//40+1
     print(result)
     if len(result) > page_number * 40:
         result = result[(page_number-1)*40:page_number * 40 - 1]
@@ -101,10 +106,11 @@ def search(page_number):
     if page_number>1:
         previous_page = True
 
+    pages = cal_nearest_10_page(page_number, max_pages)
     mid_index = len(result)//2
     result_right = result[:mid_index]
     result_left = result[mid_index:]
-    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, previous_page=previous_page, current_user=current_user)
+    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, previous_page=previous_page, current_user=current_user, pages=pages, current_page=page_number)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -499,8 +505,33 @@ def logout():
     resp.set_cookie('session_id', '', expires=0)
     return resp
 
-def update_database():
-    pass
+def cal_nearest_10_page(page_number, max_pages):
+    """ it caculates the nearest 10 page """
+    page_list = []
+    pivot = page_number
+    if pivot-5 < 0:
+        for i in range(1, pivot+1):
+            page_list.append(i)
+        if pivot+5+abs(pivot-5) > max_pages or pivot+5 > max_pages:
+            for i in range(pivot, max_pages + 1):
+                page_list.append(i)
+        else:
+            for i in range(pivot, pivot+5+abs(pivot-5)+1):
+                page_list.append(i)
+    else:
+        if pivot+5>max_pages:
+            if pivot-5-abs(max_pages - pivot - 5)<0:
+                for i in range(1, pivot+1):
+                    page_list.append(i)
+            else:
+                for i in range(pivot - 5 - abs(max_pages - pivot - 5) + 1, pivot + 1):
+                    page_list.append(i)
+            for i in range(pivot, max_pages + 1):
+                page_list.append(i)
+        else:
+            for i in range(pivot-5+1, pivot+5+1):
+                page_list.append(i)
+    return sorted(list(set(page_list)))
 
 
 if __name__ == '__main__':

@@ -226,10 +226,22 @@ H3{
     padding: 10px 10px 10px 10px;
     position: relative;
     border-radius: 20px;
+    margin-right: 5px;
+
+
 }
-.result .buttons .prepage{
-    margin-right: 40%;
+.result .buttons .current_page{
+    margin-top: 30px;
+    font-size: 15px;
+    font-family: 'Itim', serif;
+    padding: 10px 10px 10px 10px;
+    position: relative;
+    border-radius: 20px;
+    background-color: #ffa800;
 }
+/*.result .buttons .prepage{*/
+/*    margin-right: 40%;*/
+/*}*/
 .result_right ul li a {
     color:rgba(0, 0, 0, 0.85);
     font-family: 'Itim', serif;

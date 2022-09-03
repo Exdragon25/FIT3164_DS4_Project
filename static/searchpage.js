@@ -27,11 +27,15 @@ element.onclick = function () {
    }
 };
 
+function choose_page(next_page_num){
+    // let next_page_num = $(this).data('id')
+    let cur_url = window.location.href
+    let cur_url_var = cur_url.split('/')
+    // const cur_url_path = window.location.pathname;
+    // var cur_url_var = cur_url.split('/')
+    const new_URL = window.location.host + '/'+ next_page_num + '/' + cur_url_var[cur_url_var.length-1]
+    window.location.assign(new_URL)
+}
 
-    // for (i=0; i<document.filter1.cuisine.length;i++)
-    //     document.filter1.cuisine[i].checked = false;
-    // for (i=0; i<document.filter2.taste.length;i++)
-    //     document.filter2.taste[i].checked = false;
-    // for (i=0; i<document.filter3.course.length;i++)
-    //     document.filter3.course[i].checked = false;
+
 

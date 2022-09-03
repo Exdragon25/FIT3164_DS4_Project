@@ -144,11 +144,16 @@ H3{
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     margin-right: 50px;
     margin-left: 20px;
-    flex: 22%;
+    flex: 20%;
     font-family: 'Acme', serif;
     font-weight: 200;
     color: rgba(0, 0, 0, 0.6);
 
+}
+
+.filter .cuisine .applyb, .filter .cuisine .resetb {
+    font-family: 'Itim', serif;
+    border-radius: 20px;
 }
 
 .filter .cuisine {
@@ -190,23 +195,31 @@ H3{
     width: 100%;
     display: flex;
 }
-
+.result {
+    flex: 80%;
+    display: flex;
+    flex-direction: column;
+}
+.result .show_result {
+    display: flex;
+}
 .result_left {
     margin-top: 70px;
     min-height: calc(100% - 120px);
-    flex: 40%;
+    flex: 50%;
     font-size: 18px;
-    padding-right: 15px;
+    padding-right: 30px;
     position: relative;
 }
 .result_right {
     margin-top: 70px;
     min-height: calc(100% - 120px);
-    flex: 40%;
-    padding-right: 15px;
+    flex: 50%;
+    padding-right: 20px;
     position: relative;
 }
-.result_right button, .result_left button{
+
+.result .buttons button{
     margin-top: 30px;
     font-size: 15px;
     font-family: 'Itim', serif;
@@ -214,7 +227,9 @@ H3{
     position: relative;
     border-radius: 20px;
 }
-
+.result .buttons .prepage{
+    margin-right: 40%;
+}
 .result_right ul li a {
     color:rgba(0, 0, 0, 0.85);
     font-family: 'Itim', serif;

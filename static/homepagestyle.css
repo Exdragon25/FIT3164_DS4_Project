@@ -192,14 +192,14 @@ body {
 .dailyrecom .dailyrecipe ul img{
     display: flex;
     justify-content: space-between;
-    height: 400px;
+    height: 350px;
     width: 100%;
 }
 
 .dailyrecom .dailyrecipe ul {
     display: flex;
     justify-content: space-between;
-    height: 400px;
+    height: 350px;
 
 }
 

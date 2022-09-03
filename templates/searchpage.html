@@ -31,8 +31,8 @@
         <div class="filter" id="filter">
             <div class="cuisine" id="filter1">
                 <h3>Cuisine
-                    <button type="submit" name="submit_button" value="apply">Apply</button>
-                    <button type="button" id="resetBtn" style="margin-left: 5px">Reset</button>
+                    <button type="submit" name="submit_button" value="apply" class="applyb">Apply</button>
+                    <button type="button" id="resetBtn" style="margin-left: 5px" class="resetb">Reset</button>
                 </h3>
                 <br>
                 <input type="checkbox" name="cuisine" value="American" class="ck"/> American<br><span></span>
@@ -77,30 +77,38 @@
         </div>
 
         <!--    results    -->
-        <div class="result_left">
-            <ul>
-                {% for data in result_left %}
-                    <li><a href="{{ data }}">
-                        {{ data }}
-                    </a></li>
-                {% endfor %}
-            </ul>
-            {% if previous_page == True %}
-                <button type="submit" name="submit_button" value="previous_page">Previous Page</button>
-            {% endif %}
+        <div class="result">
+            <div class="show_result">
+                <div class="result_left">
+                <ul>
+                    {% for data in result_left %}
+                        <li><a href="{{ data }}">
+                            {{ data }}
+                        </a></li>
+                    {% endfor %}
+                </ul>
+                </div>
 
-        </div>
-        <div class="result_right">
-            <ul>
-                {% for data in result_right %}
-                    <li><a href="{{ data }}">{{ data }}</a></li>
-                {% endfor %}
-            </ul>
-            {% if next_page == True %}
-                <button type="submit" name="submit_button" value="next_page">Next Page</button>
-            {% endif %}
+                <div class="result_right">
+                    <ul>
+                        {% for data in result_right %}
+                            <li><a href="{{ data }}">{{ data }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="buttons">
+                {% if previous_page == True %}
+                    <button type="submit" name="submit_button" value="previous_page" class="prepage">Previous Page</button>
+                {% endif %}
+                {% if next_page == True %}
+                    <button type="submit" name="submit_button" value="next_page">Next Page</button>
+                {% endif %}
+            </div>
         </div>
     </div>
+
 
     <!-- footer -->
     <div class="footer">
@@ -108,6 +116,7 @@
         <div class="backhome"><a href="/">Home</a></div>
     </div>
     <script src="{{ url_for('static', filename = '/searchpage.js') }}"></script>
+
 </form>
 </body>
 </html>

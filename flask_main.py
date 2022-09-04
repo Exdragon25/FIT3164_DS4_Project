@@ -27,9 +27,7 @@ app.config['SECRET_KEY'] = 'EJFHhiufwh893hf'
 
 @app.route('/get_cookie')
 def get_cookie():
-    # c=request.cookies.get("User")
     c=request.cookies.get("session_id")
-    print(type(c))
     return c
 
 
@@ -65,12 +63,10 @@ def search(page_number):
     if request.method == 'POST' and request.form['submit_button'] == 'next_page':
         next_page_number = page_number + 1
         full_path = request.full_path.split("/")
-        print(str(next_page_number), page_number)
         return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
     elif request.method == 'POST' and request.form['submit_button'] == 'previous_page':
         next_page_number = page_number - 1
         full_path = request.full_path.split("/")
-        print(str(next_page_number), page_number)
         return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
     elif request.method == 'POST' and (request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
         output = {'search': request.form.get('search'),
@@ -88,13 +84,11 @@ def search(page_number):
     cuisine = request.args.getlist('cuisine')
     taste = request.args.getlist('taste')
     course = request.args.getlist('course')
-    print(search, cuisine)
     search = search.replace("_", " ")
     for i in range(len(course)):
         course[i] = course[i].replace("_", " ")
     result = render_result(search, cuisine, taste, course)
     max_pages = len(result)//40+1
-    print(result)
     if len(result) > page_number * 40:
         result = result[(page_number-1)*40:page_number * 40 - 1]
         next_page = True
@@ -121,15 +115,39 @@ def login():
         result = login_register("login", user_info) # string
         if len(result) == 22: #length of session id is 22
             user=request.form.get('uname')
-            print(user_info)
             session['uname'] = request.form.get('uname')
             resp=make_response(redirect('/'))
-            # resp.set_cookie('User', user, max_age=36000)
             resp.set_cookie('session_id', result, max_age=36000)
             return resp
         else:
             return result
     return render_template("login.html")
+
+@app.route("/<string:recipe_name>", methods=['GET'])
+def show_recipe(recipe_name):
+    current_user = get_current_user()
+    result = None
+    client = MongoClient()
+    db = client.fit3164
+    usr_coll = db.user_collection
+    dish_coll = db.Dish_collection
+
+    if current_user:
+        usr_coll.update_one(
+            {'username': current_user},
+            {'$addToSet': {'user_history': recipe_name}})
+    cursor = dish_coll.find({'name': recipe_name})
+    result = []
+    for doc in cursor:
+        result.append(doc)
+    cuisine = result[0]['cuisine']
+    course = result[0]['course']
+    ingredients = result[0]['ingredient_array']
+    instructions = result[0]['instructions']
+
+    return render_template("resultpage.html", recipe_name=recipe_name, cuisine=cuisine, course=course, ingredients=ingredients, instructions=instructions)
+
+
 
 def get_current_user():
     session_id = request.cookies.get('session_id')

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dish Recommendation</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Acme|Itim|Cabin">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/resultpagestyle.css') }}">
+
+</head>
+<body>
+<form method="POST">
+    <!-- nav -->
+    <div class="nav">
+        <div class="title"><a href="/">Dish Recommendation</a></div>
+        <div class="searchbox">
+            <input type="text" id="search" name="search" placeholder="Dishes name or ingredients here (optional)">
+            <button type="submit" name="submit_button" value="search"></button>
+        </div>
+        {% if current_user %}
+            <div class="user">{{ current_user }}</div>
+            <div class="logout"><a href="{{url_for('logout')}}">Logout</a></div>
+        {% else %}
+            <div class="login"><a href="{{url_for('login')}}">Login</a></div>
+        {% endif %}
+    </div>
+
+    <div class="intro">
+        <div class="name_and_NER">
+            <div class="recipe_name">{{ recipe_name }}</div><br>
+            <div class="num_ner"> {{ num_NER }} </div>
+        </div>
+        <div class="result_img">
+            <img src="{{ url_for('static', filename = '/result_img.jpg') }}" alt="recipe image">
+        </div>
+    </div>
+
+    <div class="middle"></div>
+
+    <div class="detail">
+        <div class="instruction">
+            <h2>Steps</h2><br>
+            {% set num_step = ingredients|length %}
+            {% for i in range(num_step) %}
+                {% set i = i + 1 %}
+                {% set len_ins = instructions[i-1]|length %}
+                {% if  len_ins > 0 %}
+                    <strong>{{ i }}</strong>. {{ instructions[i-1] }}<br><br>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="ingredient">
+            <h3>Ingredient</h3><br>
+            {% for i in ingredients %}
+                {% set len_ner = i|length %}
+                {% if  len_ner > 0 %}
+                    ● {{ i }}<br><br>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="copyright">Copyright @ 2022 FIT3164 Data Science Group4</div>
+        <div class="backhome"><a href="/">Home</a></div>
+    </div>
+
+</form>
+</body>
+</html>

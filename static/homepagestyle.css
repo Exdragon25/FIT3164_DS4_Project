@@ -204,6 +204,7 @@ body {
 }
 
 .dailyrecom .dailyrecipe ul li {
+    flex: 25%;
     padding: 10px 10px 10px 10px;
 }
 .dailyrecom .dailyrecipe .dailylast {

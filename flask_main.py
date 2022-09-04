@@ -104,7 +104,8 @@ def search(page_number):
     mid_index = len(result)//2
     result_right = result[:mid_index]
     result_left = result[mid_index:]
-    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page, previous_page=previous_page, current_user=current_user, pages=pages, current_page=page_number)
+    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page,
+                           previous_page=previous_page, current_user=current_user, pages=pages, current_page=page_number)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -122,6 +123,7 @@ def login():
         else:
             return result
     return render_template("login.html")
+
 
 @app.route("/<string:recipe_name>", methods=['GET'])
 def show_recipe(recipe_name):
@@ -144,9 +146,11 @@ def show_recipe(recipe_name):
     course = result[0]['course']
     ingredients = result[0]['ingredient_array']
     instructions = result[0]['instructions']
-
-    return render_template("resultpage.html", recipe_name=recipe_name, cuisine=cuisine, course=course, ingredients=ingredients, instructions=instructions)
-
+    num_ner = len(ingredients)
+    num_NER = str(num_ner) + " ingredients"
+    return render_template("resultpage.html",
+                           recipe_name=recipe_name, cuisine=cuisine, course=course,
+                           ingredients=ingredients, instructions=instructions, num_NER=num_NER)
 
 
 def get_current_user():
@@ -162,6 +166,7 @@ def get_current_user():
         return cur_user[0]["username"]
     else:
         return None
+
 
 def get_current_user_his():
     session_id = request.cookies.get('session_id')
@@ -523,8 +528,9 @@ def logout():
     resp.set_cookie('session_id', '', expires=0)
     return resp
 
+
 def cal_nearest_10_page(page_number, max_pages):
-    """ it caculates the nearest 10 page """
+    """ it calculates the nearest 10 page """
     page_list = []
     pivot = page_number
     if pivot-5 < 0:

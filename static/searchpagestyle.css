@@ -195,6 +195,17 @@ H3{
     width: 100%;
     display: flex;
 }
+.notice_result {
+    display: flex;
+    flex: 80%;
+    flex-direction: column;
+}
+.notice_result .notice {
+    color:rgba(0, 0, 0, 0.5);
+    font-family: 'Cabin', serif;
+    margin-top: 20px;
+    font-size: 20px;
+}
 .result {
     flex: 80%;
     display: flex;
@@ -204,7 +215,7 @@ H3{
     display: flex;
 }
 .result_left {
-    margin-top: 70px;
+    margin-top: 30px;
     min-height: calc(100% - 120px);
     flex: 50%;
     font-size: 18px;
@@ -212,7 +223,7 @@ H3{
     position: relative;
 }
 .result_right {
-    margin-top: 70px;
+    margin-top: 30px;
     min-height: calc(100% - 120px);
     flex: 50%;
     padding-right: 20px;
@@ -227,8 +238,6 @@ H3{
     position: relative;
     border-radius: 20px;
     margin-right: 5px;
-
-
 }
 .result .buttons .current_page{
     margin-top: 30px;

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dish Recommendation</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Acme|Itim">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Acme|Itim|Cabin">
     <link rel="stylesheet" href="{{ url_for('static', filename = '/searchpagestyle.css') }}">
 
 </head>
@@ -77,45 +77,56 @@
         </div>
 
         <!--    results    -->
-        <div class="result">
-            <div class="show_result">
-                <div class="result_left">
-                <ul>
-                    {% for data in result_left %}
-                        <li><a href="{{"http://127.0.0.1:5000/" + data }}">
-                            {{ data }}
-                        </a></li>
-                    {% endfor %}
-                </ul>
-                </div>
-
-                <div class="result_right">
-                    <ul>
-                        {% for data in result_right %}
-                            <li><a href="{{ "http://127.0.0.1:5000/" + data }}">{{ data }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
+        <div class="notice_result">
+            <div class="notice">
+                {% if num_result < 1 %}
+                    <p class="no_result">Sorry, we couldn't find any matching results.</p>
+                {% else %}
+                    <p class="num_result">Showing {{ num_result }} results.</p>
+                {% endif %}
             </div>
 
-            <div class="buttons">
-                {% if previous_page == True %}
-                    <button type="submit" name="submit_button" value="previous_page" class="prepage">Previous Page</button>
-                {% endif %}
-                {% for page in pages %}
-                    {% if page == current_page %}
-                        <button type="submit" class="current_page" name="submit_button"  value={{ page }} >{{ page }}</button>
-                    {% else %}
-                        <button type="submit" name="submit_button"  value={{ page }} >{{ page }}</button>
+            <div class="result">
+                <div class="show_result">
+                    <div class="result_left">
+                        <ul>
+                            {% for data in result_left %}
+                                <li><a href="{{"http://127.0.0.1:5000/" + data }}">
+                                    {{ data }}
+                                </a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="result_right">
+                        <ul>
+                            {% for data in result_right %}
+                                <li><a href="{{ "http://127.0.0.1:5000/" + data }}">{{ data }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    {% if num_result >= 1 %}
+                        {% if previous_page == True %}
+                            <button type="submit" name="submit_button" value="previous_page" class="prepage">Previous Page</button>
+                        {% endif %}
+                        {% for page in pages %}
+                            {% if page == current_page %}
+                                <button type="submit" class="current_page" name="submit_button"  value={{ page }} >{{ page }}</button>
+                            {% else %}
+                                <button type="submit" name="submit_button"  value={{ page }} >{{ page }}</button>
+                            {% endif %}
+                        {% endfor %}
+                        {% if next_page == True %}
+                            <button type="submit" name="submit_button" value="next_page">Next Page</button>
+                        {% endif %}
                     {% endif %}
-                {% endfor %}
-                {% if next_page == True %}
-                    <button type="submit" name="submit_button" value="next_page">Next Page</button>
-                {% endif %}
+                </div>
             </div>
         </div>
     </div>
-
 
     <!-- footer -->
     <div class="footer">

@@ -88,6 +88,7 @@ def search(page_number):
     for i in range(len(course)):
         course[i] = course[i].replace("_", " ")
     result = render_result(search, cuisine, taste, course)
+    num_result = len(result)
     max_pages = len(result)//40+1
     if len(result) > page_number * 40:
         result = result[(page_number-1)*40:page_number * 40 - 1]
@@ -104,8 +105,10 @@ def search(page_number):
     mid_index = len(result)//2
     result_right = result[:mid_index]
     result_left = result[mid_index:]
-    return render_template("searchpage.html", result_right=result_right, result_left=result_left, next_page=next_page,
-                           previous_page=previous_page, current_user=current_user, pages=pages, current_page=page_number)
+    print(result)
+    return render_template("searchpage.html", result=result, result_right=result_right, result_left=result_left,
+                           next_page=next_page, previous_page=previous_page, current_user=current_user,
+                           pages=pages, current_page=page_number, num_result=num_result)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -148,9 +151,11 @@ def show_recipe(recipe_name):
     instructions = result[0]['instructions']
     num_ner = len(ingredients)
     num_NER = str(num_ner) + " ingredients"
+
     if request.method == 'POST':
         output = {'search': request.form.get('search')}
         return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+
     return render_template("resultpage.html",
                            recipe_name=recipe_name, cuisine=cuisine, course=course,
                            ingredients=ingredients, instructions=instructions, num_NER=num_NER)

@@ -162,9 +162,10 @@ H3{
 .intro .result_img {
     flex: 45%;
     margin-right: 8%;
+    margin-top: 25px;
 }
 .intro .result_img img {
-    height: 400px;
+    height: 350px;
     width: 100%;
     border-radius: 15px;
 }

@@ -125,7 +125,7 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/<string:recipe_name>", methods=['GET'])
+@app.route("/<string:recipe_name>", methods=['GET', 'POST'])
 def show_recipe(recipe_name):
     current_user = get_current_user()
     result = None
@@ -148,6 +148,9 @@ def show_recipe(recipe_name):
     instructions = result[0]['instructions']
     num_ner = len(ingredients)
     num_NER = str(num_ner) + " ingredients"
+    if request.method == 'POST':
+        output = {'search': request.form.get('search')}
+        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     return render_template("resultpage.html",
                            recipe_name=recipe_name, cuisine=cuisine, course=course,
                            ingredients=ingredients, instructions=instructions, num_NER=num_NER)

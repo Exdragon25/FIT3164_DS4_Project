@@ -180,15 +180,6 @@ body {
     height: 400px;
 }
 
-/*.dailyrecom .dailyrecipe ul li {*/
-/*    float: left;*/
-/*    height: 400px;*/
-/*    width: 300px;*/
-/*    background-color: steelblue;*/
-/*    margin-right: 20px;*/
-/*    margin-bottom: 10px;*/
-
-/*}*/
 .dailyrecom .dailyrecipe ul img{
     display: flex;
     justify-content: space-between;

@@ -1,7 +1,7 @@
 from pprint import pprint
 import pymongo
 import numpy as np
-from flask import Flask, jsonify, url_for, render_template, request, redirect,make_response,session
+from flask import Flask, jsonify, url_for, render_template, request, redirect, make_response, session
 import config
 import json, time, datetime
 # import pysolr
@@ -18,8 +18,6 @@ import secrets
 import most_similar_dish as ml
 import random
 
-
-
 app = Flask(__name__)
 app.config.from_object(config)  # 导入config
 app.config['SECRET_KEY'] = 'EJFHhiufwh893hf'
@@ -27,7 +25,7 @@ app.config['SECRET_KEY'] = 'EJFHhiufwh893hf'
 
 @app.route('/get_cookie')
 def get_cookie():
-    c=request.cookies.get("session_id")
+    c = request.cookies.get("session_id")
     return c
 
 
@@ -44,7 +42,9 @@ def passingfunc():
         for doc in cursor:
             dly_recom_recipe.append(doc['name'])
     else:
-        ml_recom = ml.find_similar_recipes(ml.aggregate_vectors(user_his))
+        print(user_his)
+        ml_recom = ml.find_similar_recipes(ml.aggregate_vectors(user_his), user_his)
+        print(ml_recom)
         dly_recom_recipe = random.sample(ml_recom, 4)
 
     if request.method == 'POST':
@@ -56,19 +56,19 @@ def passingfunc():
     return render_template('homepage.html', current_user=current_user, dly_recom_recipe=dly_recom_recipe)
 
 
-
 @app.route('/<int:page_number>/search', methods=['GET', 'POST'])
 def search(page_number):
     current_user = get_current_user()
     if request.method == 'POST' and request.form['submit_button'] == 'next_page':
         next_page_number = page_number + 1
         full_path = request.full_path.split("/")
-        return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
+        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
     elif request.method == 'POST' and request.form['submit_button'] == 'previous_page':
         next_page_number = page_number - 1
         full_path = request.full_path.split("/")
-        return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
-    elif request.method == 'POST' and (request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
+        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
+    elif request.method == 'POST' and (
+            request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
@@ -78,7 +78,7 @@ def search(page_number):
     elif request.method == 'POST' and request.form['submit_button'] is not None:
         next_page_number = int(request.form['submit_button'])
         full_path = request.full_path.split("/")
-        return redirect("http://127.0.0.1:5000/"+str(next_page_number)+"/"+full_path[-1])
+        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
 
     search = request.args.get('search')
     cuisine = request.args.getlist('cuisine')
@@ -89,38 +89,39 @@ def search(page_number):
         course[i] = course[i].replace("_", " ")
     result = render_result(search, cuisine, taste, course)
     num_result = len(result)
-    max_pages = len(result)//40+1
+    max_pages = len(result) // 40 + 1
     if len(result) > page_number * 40:
-        result = result[(page_number-1)*40:page_number * 40 - 1]
+        result = result[(page_number - 1) * 40:page_number * 40 - 1]
         next_page = True
     else:
-        result = result[(page_number-1) * 40:]
+        result = result[(page_number - 1) * 40:]
         next_page = False
 
     previous_page = False
-    if page_number>1:
+    if page_number > 1:
         previous_page = True
 
     pages = cal_nearest_10_page(page_number, max_pages)
-    mid_index = len(result)//2
+    show_pages = True
+    if len(pages) <= 1:
+        show_pages = False
+
+    mid_index = len(result) // 2
     result_right = result[:mid_index]
     result_left = result[mid_index:]
     print(result)
     return render_template("searchpage.html", result=result, result_right=result_right, result_left=result_left,
                            next_page=next_page, previous_page=previous_page, current_user=current_user,
-                           pages=pages, current_page=page_number, num_result=num_result)
+                           pages=pages, current_page=page_number, num_result=num_result, show_pages=show_pages)
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
-        # return "successful"
-        result = login_register("login", user_info) # string
-        if len(result) == 22: #length of session id is 22
-            user=request.form.get('uname')
-            session['uname'] = request.form.get('uname')
-            resp=make_response(redirect('/'))
+        result = login_register("login", user_info)  # string
+        if len(result) == 22:  # length of session id is 22
+            resp = make_response(redirect('/'))
             resp.set_cookie('session_id', result, max_age=36000)
             return resp
         else:
@@ -131,7 +132,6 @@ def login():
 @app.route("/<string:recipe_name>", methods=['GET', 'POST'])
 def show_recipe(recipe_name):
     current_user = get_current_user()
-    result = None
     client = MongoClient()
     db = client.fit3164
     usr_coll = db.user_collection
@@ -158,7 +158,8 @@ def show_recipe(recipe_name):
 
     return render_template("resultpage.html",
                            recipe_name=recipe_name, cuisine=cuisine, course=course,
-                           ingredients=ingredients, instructions=instructions, num_NER=num_NER)
+                           ingredients=ingredients, instructions=instructions, num_NER=num_NER,
+                           current_user=current_user)
 
 
 def get_current_user():
@@ -228,9 +229,9 @@ def login_register(call_mode: str, user_detail_dict: dict):
             if user_doc["password"] == password:
                 return user_doc["session_id"]
             else:  # if password is wrong.
-                return render_template("login.html")+js
+                return render_template("login.html") + js
         else:  # if no this user
-            return render_template("login.html")+js
+            return render_template("login.html") + js
 
     elif call_mode == "register":
         search_result = usr_coll.find({"username": username})
@@ -241,12 +242,12 @@ def login_register(call_mode: str, user_detail_dict: dict):
 
         if len(co) != 0:  # if someone have same username
             js = """<script> alert("This username has already been registered.")</script>"""
-            return render_template("register.html")+js
+            return render_template("register.html") + js
         else:  # if this username is valid.
             session_id = secrets.token_urlsafe(16)
             temp = {"session_id": session_id, "username": username, "password": password, "user_history": []}
             usr_coll.insert_one(temp)
-            resp=make_response(redirect('/'))
+            resp = make_response(redirect('/'))
             resp.set_cookie('session_id', session_id, max_age=36000)
             return resp
 
@@ -449,7 +450,7 @@ def render_result(ingredient, cuisine, taste, course):
     elif ingredient.__contains__(","):
         ingredient_search = True
 
-    # if input has no comma
+    # if input has no comma, search if it matches the name
     if not ingredient_search:
         # no cuisine and course selected
         if len(cuisine) == 0 and len(course) == 0:
@@ -476,7 +477,7 @@ def render_result(ingredient, cuisine, taste, course):
             # we use ingredient parser to clean up the input
             ingredient = ingredient_parser(user_input_li)
         else:
-            # if input is a single word, we make it into a list so we can do $in query
+            # if input is a single word, we make it into a list, so we can do $in query
             ingredient = [ingredient]
             # similar code to above
         if len(cuisine) == 0 and len(course) == 0:
@@ -499,6 +500,7 @@ def render_result(ingredient, cuisine, taste, course):
             # do not add into list if taste is not what isn't wants or taste data == None
             for i in taste:
                 if doc['taste'] is not None:
+                    add = True
                     if doc['taste'].get(i) is None:
                         add = False
                         break
@@ -516,6 +518,7 @@ def render_result(ingredient, cuisine, taste, course):
             add = True
             for i in taste:
                 if doc['taste'] is not None:
+                    add = True
                     if doc['taste'].get(i) is None:
                         add = False
                         break
@@ -541,19 +544,19 @@ def cal_nearest_10_page(page_number, max_pages):
     """ it calculates the nearest 10 page """
     page_list = []
     pivot = page_number
-    if pivot-5 < 0:
-        for i in range(1, pivot+1):
+    if pivot - 5 < 0:
+        for i in range(1, pivot + 1):
             page_list.append(i)
-        if pivot+5+abs(pivot-5) > max_pages or pivot+5 > max_pages:
+        if pivot + 5 + abs(pivot - 5) > max_pages or pivot + 5 > max_pages:
             for i in range(pivot, max_pages + 1):
                 page_list.append(i)
         else:
-            for i in range(pivot, pivot+5+abs(pivot-5)+1):
+            for i in range(pivot, pivot + 5 + abs(pivot - 5) + 1):
                 page_list.append(i)
     else:
-        if pivot+5>max_pages:
-            if pivot-5-abs(max_pages - pivot - 5)<0:
-                for i in range(1, pivot+1):
+        if pivot + 5 > max_pages:
+            if pivot - 5 - abs(max_pages - pivot - 5) < 0:
+                for i in range(1, pivot + 1):
                     page_list.append(i)
             else:
                 for i in range(pivot - 5 - abs(max_pages - pivot - 5) + 1, pivot + 1):
@@ -561,12 +564,10 @@ def cal_nearest_10_page(page_number, max_pages):
             for i in range(pivot, max_pages + 1):
                 page_list.append(i)
         else:
-            for i in range(pivot-5+1, pivot+5+1):
+            for i in range(pivot - 5 + 1, pivot + 5 + 1):
                 page_list.append(i)
     return sorted(list(set(page_list)))
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-

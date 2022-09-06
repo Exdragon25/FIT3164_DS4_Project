@@ -112,13 +112,15 @@
                         {% if previous_page == True %}
                             <button type="submit" name="submit_button" value="previous_page" class="prepage">Previous Page</button>
                         {% endif %}
-                        {% for page in pages %}
-                            {% if page == current_page %}
-                                <button type="submit" class="current_page" name="submit_button"  value={{ page }} >{{ page }}</button>
-                            {% else %}
-                                <button type="submit" name="submit_button"  value={{ page }} >{{ page }}</button>
-                            {% endif %}
-                        {% endfor %}
+                        {% if show_pages %}
+                            {% for page in pages %}
+                                {% if page == current_page %}
+                                    <button type="submit" class="current_page" name="submit_button"  value={{ page }} >{{ page }}</button>
+                                {% else %}
+                                    <button type="submit" name="submit_button"  value={{ page }} >{{ page }}</button>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         {% if next_page == True %}
                             <button type="submit" name="submit_button" value="next_page">Next Page</button>
                         {% endif %}

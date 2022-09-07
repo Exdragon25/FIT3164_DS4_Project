@@ -28,7 +28,7 @@ def aggregate_vectors(history):
         vector = convert_vector(i)
         if vector is not None:
             history_vec.append(vector)
-
+    history_vec = np.array(history_vec)
     return np.mean(history_vec, axis=0, dtype=np.ndarray)
 
 

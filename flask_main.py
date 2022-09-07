@@ -570,4 +570,4 @@ def cal_nearest_10_page(page_number, max_pages):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(debug=True)

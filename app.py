@@ -17,6 +17,7 @@ from nltk import WordNetLemmatizer
 import secrets
 import most_similar_dish as ml
 import random
+from gevent import pywsgi
 
 app = Flask(__name__)
 app.config.from_object(config)  # 导入config
@@ -570,5 +571,7 @@ def cal_nearest_10_page(page_number, max_pages):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(host='0.0.0.0', port = 8080)
+    # app.run(debug=True)
+    # server = pywsgi.WSGIServer(('0.0.0.0', 8080), app)
+    # server.serve_forever()
+    app.run(host='0.0.0.0', port = 8000)

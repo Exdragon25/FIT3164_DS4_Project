@@ -129,7 +129,7 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/<string:recipe_name>", methods=['GET', 'POST'])
+@app.route("/<string:recipe_name>/", methods=['GET', 'POST'])
 def show_recipe(recipe_name):
     current_user = get_current_user()
     client = MongoClient()
@@ -570,4 +570,4 @@ def cal_nearest_10_page(page_number, max_pages):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080)

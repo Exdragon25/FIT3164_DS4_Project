@@ -1,10 +1,8 @@
-from pprint import pprint
 import pymongo
 import numpy as np
 from flask import Flask, jsonify, url_for, render_template, request, redirect, make_response, session
 import config
 import json, time, datetime
-# import pysolr
 import pandas as pd
 import urllib.parse
 from pymongo import MongoClient

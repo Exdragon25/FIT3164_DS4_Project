@@ -453,18 +453,18 @@ def render_result(ingredient, cuisine, taste, course):
     if not ingredient_search:
         # no cuisine and course selected
         if len(cuisine) == 0 and len(course) == 0:
-            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"}})
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "i"}})
         # only course selected
         elif len(cuisine) == 0 and len(course) != 0:
-            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"},
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "i"},
                                      "course": {'$in': course}})
         # only cuisine selected
         elif len(cuisine) != 0 and len(course) == 0:
-            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"},
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "i"},
                                      "cuisine": {"$in": cuisine}})
         # cuisine and course are selected
         else:
-            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "$i"}, "cuisine": {"$in": cuisine},
+            result = dish_coll.find({'name': {"$regex": ingredient, "$options": "i"}, "cuisine": {"$in": cuisine},
                                      "course": {'$in': course}})
 
     # do not need additional search if empty input

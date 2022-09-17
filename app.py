@@ -1,21 +1,25 @@
-import pymongo
-import numpy as np
-from flask import Flask, jsonify, url_for, render_template, request, redirect, make_response, session
-import config
-import json, time, datetime
-import pandas as pd
-import urllib.parse
-from pymongo import MongoClient
-import nltk
-import string
 import ast
-import re
-import unidecode
-from nltk import WordNetLemmatizer
-import secrets
-import most_similar_dish as ml
+import datetime
+import json
 import random
-from gevent import pywsgi
+import re
+import secrets
+import string
+import time
+import urllib.parse
+
+import nltk
+import numpy as np
+import pandas as pd
+import pymongo
+import unidecode
+from flask import (Flask, jsonify, make_response, redirect, render_template,
+                   request, session, url_for)
+from nltk import WordNetLemmatizer
+from pymongo import MongoClient
+
+import config
+import most_similar_dish as ml
 
 app = Flask(__name__)
 app.config.from_object(config)  # 导入config

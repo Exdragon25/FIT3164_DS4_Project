@@ -91,7 +91,7 @@
                     <div class="result_left">
                         <ul>
                             {% for data in result_left %}
-                                <li><a href="{{"http://127.0.0.1:5000/" + data }}">
+                                <li><a href="{{ "http://43.138.182.40:8000/" + data }}">
                                     {{ data }}
                                 </a></li>
                             {% endfor %}
@@ -101,7 +101,7 @@
                     <div class="result_right">
                         <ul>
                             {% for data in result_right %}
-                                <li><a href="{{ "http://127.0.0.1:5000/" + data }}">{{ data }}</a></li>
+                                <li><a href="{{ "http://43.138.182.40:8000/" + data }}">{{ data }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>

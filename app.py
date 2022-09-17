@@ -51,7 +51,7 @@ def passingfunc():
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
-        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+        return redirect("http://43.138.182.40:8000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     return render_template('homepage.html', current_user=current_user, dly_recom_recipe=dly_recom_recipe)
 
 
@@ -61,23 +61,23 @@ def search(page_number):
     if request.method == 'POST' and request.form['submit_button'] == 'next_page':
         next_page_number = page_number + 1
         full_path = request.full_path.split("/")
-        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
+        return redirect("http://43.138.182.40:8000/" + str(next_page_number) + "/" + full_path[-1])
     elif request.method == 'POST' and request.form['submit_button'] == 'previous_page':
         next_page_number = page_number - 1
         full_path = request.full_path.split("/")
-        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
+        return redirect("http://43.138.182.40:8000/" + str(next_page_number) + "/" + full_path[-1])
     elif request.method == 'POST' and (
             request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
-        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+        return redirect("http://43.138.182.40:8000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     # choose page number action
     elif request.method == 'POST' and request.form['submit_button'] is not None:
         next_page_number = int(request.form['submit_button'])
         full_path = request.full_path.split("/")
-        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
+        return redirect("http://43.138.182.40:8000/" + str(next_page_number) + "/" + full_path[-1])
 
     search = request.args.get('search')
     cuisine = request.args.getlist('cuisine')
@@ -153,7 +153,7 @@ def show_recipe(recipe_name):
 
     if request.method == 'POST':
         output = {'search': request.form.get('search')}
-        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+        return redirect("http://43.138.182.40:8000/1/search?" + urllib.parse.urlencode(output, doseq=True))
 
     return render_template("resultpage.html",
                            recipe_name=recipe_name, cuisine=cuisine, course=course,

@@ -50,3 +50,5 @@ kill -9 PID
 
 # run by:
 set FLASK_APP=app.py | flask run --host=0.0.0.0 --port=8000
+
+# please remove _pycache_ folder

@@ -34,6 +34,10 @@ def get_cookie():
 
 @app.route("/", methods=['GET', 'POST'])
 def passingfunc():
+    """
+    passing user selection on homepage.
+    :return: redirect to webpage
+    """
     current_user = get_current_user()
     user_his = get_current_user_his()
     dly_recom_recipe = []
@@ -55,33 +59,36 @@ def passingfunc():
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
-        return redirect("http://43.138.182.40:8000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     return render_template('homepage.html', current_user=current_user, dly_recom_recipe=dly_recom_recipe)
 
 
 @app.route('/<int:page_number>/search', methods=['GET', 'POST'])
 def search(page_number):
+    """
+    rendering search result webpages, including filter and multiple pages
+    """
     current_user = get_current_user()
     if request.method == 'POST' and request.form['submit_button'] == 'next_page':
         next_page_number = page_number + 1
         full_path = request.full_path.split("/")
-        return redirect("http://43.138.182.40:8000/" + str(next_page_number) + "/" + full_path[-1])
+        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
     elif request.method == 'POST' and request.form['submit_button'] == 'previous_page':
         next_page_number = page_number - 1
         full_path = request.full_path.split("/")
-        return redirect("http://43.138.182.40:8000/" + str(next_page_number) + "/" + full_path[-1])
+        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
     elif request.method == 'POST' and (
             request.form['submit_button'] == 'apply' or request.form['submit_button'] == 'search'):
         output = {'search': request.form.get('search'),
                   'cuisine': request.form.getlist('cuisine'),
                   'taste': request.form.getlist('taste'),
                   'course': request.form.getlist('course')}
-        return redirect("http://43.138.182.40:8000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+        return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
     # choose page number action
     elif request.method == 'POST' and request.form['submit_button'] is not None:
         next_page_number = int(request.form['submit_button'])
         full_path = request.full_path.split("/")
-        return redirect("http://43.138.182.40:8000/" + str(next_page_number) + "/" + full_path[-1])
+        return redirect("http://127.0.0.1:5000/" + str(next_page_number) + "/" + full_path[-1])
 
     search = request.args.get('search')
     cuisine = request.args.getlist('cuisine')
@@ -120,6 +127,10 @@ def search(page_number):
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    """
+    For user to login, set cookies
+    :return:
+    """
     if request.method == 'POST':
         user_info = dict(username=request.form.get('uname'), password=request.form.get('pwd'))
         result = login_register("login", user_info)  # string
@@ -134,35 +145,39 @@ def login():
 
 @app.route("/<string:recipe_name>/", methods=['GET', 'POST'])
 def show_recipe(recipe_name):
-    current_user = get_current_user()
-    client = MongoClient()
-    db = client.fit3164
-    usr_coll = db.user_collection
-    dish_coll = db.Dish_collection
+    """
+    show detail webpage of recipes
+    """
+    if recipe_name != "favicon.ico" and recipe_name != " ":
+        current_user = get_current_user()
+        client = MongoClient()
+        db = client.fit3164
+        usr_coll = db.user_collection
+        dish_coll = db.Dish_collection
 
-    if current_user:
-        usr_coll.update_one(
-            {'username': current_user},
-            {'$addToSet': {'user_history': recipe_name}})
-    cursor = dish_coll.find({'name': recipe_name})
-    result = []
-    for doc in cursor:
-        result.append(doc)
-    cuisine = result[0]['cuisine']
-    course = result[0]['course']
-    ingredients = result[0]['ingredient_array']
-    instructions = result[0]['instructions']
-    num_ner = len(ingredients)
-    num_NER = str(num_ner) + " ingredients"
+        if current_user:
+            usr_coll.update_one(
+                {'username': current_user},
+                {'$addToSet': {'user_history': recipe_name}})
+        cursor = dish_coll.find({'name': recipe_name})
+        result = []
+        for doc in cursor:
+            result.append(doc)
+        cuisine = result[0]['cuisine']
+        course = result[0]['course']
+        ingredients = result[0]['ingredient_array']
+        instructions = result[0]['instructions']
+        num_ner = len(ingredients)
+        num_NER = str(num_ner) + " ingredients"
 
-    if request.method == 'POST':
-        output = {'search': request.form.get('search')}
-        return redirect("http://43.138.182.40:8000/1/search?" + urllib.parse.urlencode(output, doseq=True))
+        if request.method == 'POST':
+            output = {'search': request.form.get('search')}
+            return redirect("http://127.0.0.1:5000/1/search?" + urllib.parse.urlencode(output, doseq=True))
 
-    return render_template("resultpage.html",
-                           recipe_name=recipe_name, cuisine=cuisine, course=course,
-                           ingredients=ingredients, instructions=instructions, num_NER=num_NER,
-                           current_user=current_user)
+        return render_template("resultpage.html",
+                               recipe_name=recipe_name, cuisine=cuisine, course=course,
+                               ingredients=ingredients, instructions=instructions, num_NER=num_NER,
+                               current_user=current_user)
 
 
 def get_current_user():
@@ -181,6 +196,9 @@ def get_current_user():
 
 
 def get_current_user_his():
+    """
+    directly query the user's history by cookies
+    """
     session_id = request.cookies.get('session_id')
     if session_id is not None:
         client = MongoClient()
@@ -201,8 +219,8 @@ def login_register(call_mode: str, user_detail_dict: dict):
     :param call_mode: string for indicate what you want to do with user
                 "login" : for user login
                 "register" : for user registration
-                "view_history" for view history to do ML and recommendation
-                "update_history" for update history when user viewing some dishes
+                "view_history" for view history to do ML and recommendation [not use]
+                "update_history" for update history when user viewing some dishes [not use]
     :param user_detail_dict: dictionary of user input, mostly are username and password
     :return: a list for showing 5 situations:
                 1. "success" For registration
@@ -224,9 +242,10 @@ def login_register(call_mode: str, user_detail_dict: dict):
         search_result = usr_coll.find({"username": username})
 
         co = []
+        js = """<script> alert("Incorrect username or password, please try again.")</script>"""
         for doc in search_result:
             co.append(doc)
-            js = """<script> alert("Incorrect username or password, please try again.")</script>"""
+
         if len(co) == 1:  # if someone have same username, check the password:
             user_doc = co[0]  # pick the user info from cursor
             if user_doc["password"] == password:
@@ -320,6 +339,15 @@ def register():
 
 
 def render_result(ingredient, cuisine, taste, course):
+    """
+    deal with user search input and return a list of recipe name
+    :param ingredient:
+    :param cuisine:
+    :param taste:
+    :param course:
+    :return: list of recipe name
+    """
+
     def ingredient_parser(ingreds):
         measures = [
             "teaspoon",
@@ -576,4 +604,4 @@ if __name__ == '__main__':
     # app.run(debug=True)
     # server = pywsgi.WSGIServer(('0.0.0.0', 8080), app)
     # server.serve_forever()
-    app.run(host='0.0.0.0', port = 8000)
+    app.run(host='0.0.0.0', port=5000)
